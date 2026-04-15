@@ -1,0 +1,1118 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<!-- PWA -->
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#2e7d32">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Novalia">
+<link rel="apple-touch-icon" href="icon.svg">
+<title>Novalia — Moviments</title>
+<style>
+  :root {
+    --green: #2e7d32;
+    --green-light: #43a047;
+    --green-pale: #e8f5e9;
+    --green-mid: #c8e6c9;
+    --red: #c62828;
+    --grey: #546e7a;
+    --grey-light: #eceff1;
+    --grey-mid: #b0bec5;
+    --white: #ffffff;
+    --text: #263238;
+    --text-light: #546e7a;
+    --shadow: 0 2px 8px rgba(0,0,0,0.12);
+    --radius: 12px;
+    --radius-sm: 8px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: #f0f4f0;
+    color: var(--text);
+    min-height: 100vh;
+    padding-bottom: 80px;
+  }
+
+  /* HEADER */
+  header {
+    background: var(--green);
+    color: white;
+    padding: 16px 20px 14px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  header h1 { font-size: 1.2rem; font-weight: 700; letter-spacing: 0.5px; }
+  header .subtitle { font-size: 0.75rem; opacity: 0.85; margin-top: 2px; }
+  .header-badge {
+    background: rgba(255,255,255,0.2);
+    border-radius: 20px;
+    padding: 4px 12px;
+    font-size: 0.8rem;
+    font-weight: 600;
+  }
+
+  /* TABS */
+  .tabs {
+    display: flex;
+    background: var(--white);
+    border-bottom: 2px solid var(--green-mid);
+    position: sticky;
+    top: 60px;
+    z-index: 99;
+  }
+  .tab {
+    flex: 1;
+    padding: 12px 8px;
+    text-align: center;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--grey);
+    cursor: pointer;
+    border-bottom: 3px solid transparent;
+    transition: all 0.2s;
+    user-select: none;
+  }
+  .tab.active {
+    color: var(--green);
+    border-bottom-color: var(--green);
+  }
+  .tab .tab-icon { font-size: 1.1rem; display: block; margin-bottom: 2px; }
+
+  /* PANELS */
+  .panel { display: none; padding: 16px; }
+  .panel.active { display: block; }
+
+  /* FORM */
+  .form-section {
+    background: white;
+    border-radius: var(--radius);
+    padding: 16px;
+    margin-bottom: 14px;
+    box-shadow: var(--shadow);
+  }
+  .form-section-title {
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--green);
+    margin-bottom: 14px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--green-pale);
+  }
+
+  .field { margin-bottom: 14px; }
+  .field:last-child { margin-bottom: 0; }
+  label {
+    display: block;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--text-light);
+    margin-bottom: 5px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  label .req { color: var(--red); margin-left: 2px; }
+
+  input[type="text"],
+  input[type="date"],
+  input[type="number"],
+  select,
+  textarea {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1.5px solid var(--grey-mid);
+    border-radius: var(--radius-sm);
+    font-size: 1rem;
+    color: var(--text);
+    background: white;
+    appearance: none;
+    -webkit-appearance: none;
+    transition: border-color 0.2s;
+    font-family: inherit;
+  }
+  input:focus, select:focus, textarea:focus {
+    outline: none;
+    border-color: var(--green-light);
+    box-shadow: 0 0 0 3px var(--green-pale);
+  }
+  select {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%23546e7a' d='M6 8L0 0h12z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+    padding-right: 36px;
+  }
+  textarea { min-height: 70px; resize: vertical; line-height: 1.5; }
+
+  .row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .row-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
+
+  /* PES NET */
+  .pes-net-display {
+    background: var(--green-pale);
+    border: 1.5px solid var(--green-mid);
+    border-radius: var(--radius-sm);
+    padding: 12px 14px;
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--green);
+    text-align: center;
+    min-height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* BUTTONS */
+  .btn {
+    width: 100%;
+    padding: 16px;
+    border: none;
+    border-radius: var(--radius);
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    letter-spacing: 0.5px;
+    transition: all 0.15s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+  .btn:active { transform: scale(0.97); }
+  .btn-primary { background: var(--green); color: white; box-shadow: 0 4px 12px rgba(46,125,50,0.35); }
+  .btn-primary:hover { background: var(--green-light); }
+  .btn-secondary { background: var(--grey-light); color: var(--grey); }
+  .btn-danger { background: #ffebee; color: var(--red); }
+  .btn-export { background: #1565c0; color: white; box-shadow: 0 4px 12px rgba(21,101,192,0.35); }
+  .btn-sm {
+    padding: 8px 14px;
+    font-size: 0.8rem;
+    border-radius: var(--radius-sm);
+    width: auto;
+  }
+
+  /* TOAST */
+  #toast {
+    position: fixed;
+    bottom: 90px;
+    left: 50%;
+    transform: translateX(-50%) translateY(20px);
+    background: var(--text);
+    color: white;
+    padding: 12px 24px;
+    border-radius: 24px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    opacity: 0;
+    transition: all 0.3s;
+    z-index: 1000;
+    white-space: nowrap;
+    pointer-events: none;
+  }
+  #toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+  #toast.success { background: var(--green); }
+  #toast.error { background: var(--red); }
+
+  /* LLISTAT */
+  .llistat-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 14px;
+  }
+  .llistat-header h2 { font-size: 1rem; font-weight: 700; color: var(--text); }
+  .count-badge {
+    background: var(--green);
+    color: white;
+    border-radius: 12px;
+    padding: 3px 10px;
+    font-size: 0.8rem;
+    font-weight: 700;
+  }
+
+  .search-box {
+    background: white;
+    border-radius: var(--radius-sm);
+    padding: 10px 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 14px;
+    box-shadow: var(--shadow);
+  }
+  .search-box input {
+    border: none;
+    outline: none;
+    font-size: 0.95rem;
+    flex: 1;
+    color: var(--text);
+    padding: 0;
+  }
+  .search-box span { color: var(--grey-mid); font-size: 1rem; }
+
+  .empty-state {
+    text-align: center;
+    padding: 48px 20px;
+    color: var(--grey);
+  }
+  .empty-state .icon { font-size: 3rem; margin-bottom: 12px; opacity: 0.5; }
+  .empty-state p { font-size: 0.95rem; }
+
+  .moviment-card {
+    background: white;
+    border-radius: var(--radius);
+    padding: 14px 16px;
+    margin-bottom: 10px;
+    box-shadow: var(--shadow);
+    position: relative;
+    border-left: 4px solid var(--green);
+  }
+  .moviment-card.servei { border-left-color: #1565c0; }
+
+  .card-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 10px;
+  }
+  .card-date {
+    font-size: 0.75rem;
+    color: var(--text-light);
+    font-weight: 600;
+  }
+  .card-dest {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text);
+    margin-top: 2px;
+  }
+  .card-prov {
+    font-size: 0.8rem;
+    color: var(--text-light);
+    margin-top: 2px;
+  }
+  .card-pes {
+    text-align: right;
+  }
+  .card-pes .value {
+    font-size: 1.1rem;
+    font-weight: 800;
+    color: var(--green);
+  }
+  .card-pes .unit { font-size: 0.7rem; color: var(--text-light); }
+
+  .card-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 8px;
+  }
+  .pill {
+    background: var(--grey-light);
+    color: var(--grey);
+    border-radius: 12px;
+    padding: 3px 10px;
+    font-size: 0.72rem;
+    font-weight: 500;
+  }
+  .pill.green { background: var(--green-pale); color: var(--green); }
+  .pill.blue { background: #e3f2fd; color: #1565c0; }
+  .pill.orange { background: #fff3e0; color: #e65100; }
+
+  .card-costs {
+    display: flex;
+    gap: 16px;
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px solid var(--grey-light);
+    font-size: 0.78rem;
+    color: var(--text-light);
+  }
+  .card-costs span { font-weight: 600; color: var(--text); }
+
+  .card-actions {
+    display: flex;
+    gap: 8px;
+    margin-top: 10px;
+  }
+
+  /* RESUM */
+  .resum-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 14px;
+  }
+  .resum-card {
+    background: white;
+    border-radius: var(--radius);
+    padding: 16px;
+    box-shadow: var(--shadow);
+    text-align: center;
+  }
+  .resum-card .value { font-size: 1.4rem; font-weight: 800; color: var(--green); }
+  .resum-card .label { font-size: 0.72rem; color: var(--text-light); margin-top: 4px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+  .resum-card.blue .value { color: #1565c0; }
+
+  /* EXPORTAR */
+  .export-section {
+    background: white;
+    border-radius: var(--radius);
+    padding: 20px;
+    margin-bottom: 14px;
+    box-shadow: var(--shadow);
+  }
+  .export-section h3 { font-size: 0.9rem; font-weight: 700; margin-bottom: 8px; color: var(--text); }
+  .export-section p { font-size: 0.85rem; color: var(--text-light); margin-bottom: 16px; line-height: 1.5; }
+
+  /* CONFIRM MODAL */
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.5);
+    z-index: 200;
+    align-items: flex-end;
+    justify-content: center;
+  }
+  .modal-overlay.show { display: flex; }
+  .modal {
+    background: white;
+    border-radius: 24px 24px 0 0;
+    padding: 24px 20px 36px;
+    width: 100%;
+    max-width: 480px;
+  }
+  .modal h3 { font-size: 1rem; font-weight: 700; margin-bottom: 8px; }
+  .modal p { font-size: 0.9rem; color: var(--text-light); margin-bottom: 20px; }
+  .modal-actions { display: flex; gap: 10px; }
+  .modal-actions .btn { flex: 1; }
+</style>
+</head>
+<body>
+
+<header>
+  <div>
+    <div style="display:flex;align-items:center;gap:8px;">
+      <span style="font-size:1.3rem;">🌲</span>
+      <div>
+        <h1>NOVALIA FORESTAL</h1>
+        <div class="subtitle">Registre de Moviments</div>
+      </div>
+    </div>
+  </div>
+  <div class="header-badge" id="header-mes">ABR 2026</div>
+</header>
+
+<div class="tabs">
+  <div class="tab active" onclick="showTab('nou')">
+    <span class="tab-icon">➕</span>Nou
+  </div>
+  <div class="tab" onclick="showTab('llistat')">
+    <span class="tab-icon">📋</span>Llistat
+  </div>
+  <div class="tab" onclick="showTab('resum')">
+    <span class="tab-icon">📊</span>Resum
+  </div>
+  <div class="tab" onclick="showTab('exportar')">
+    <span class="tab-icon">📤</span>Exportar
+  </div>
+</div>
+
+<!-- ===== PANEL NOU MOVIMENT ===== -->
+<div class="panel active" id="panel-nou">
+  <form id="form-moviment" onsubmit="saveMoviment(event)">
+
+    <div class="form-section">
+      <div class="form-section-title">📅 Identificació</div>
+      <div class="row-2">
+        <div class="field">
+          <label>Data <span class="req">*</span></label>
+          <input type="date" id="f-data" required>
+        </div>
+        <div class="field">
+          <label>Tipus</label>
+          <select id="f-tipus">
+            <option value="venda">Venda Biomassa</option>
+            <option value="servei">Servei / Boscat</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-section">
+      <div class="form-section-title">🌲 Origen</div>
+      <div class="field">
+        <label>Proveïdor</label>
+        <select id="f-proveidor">
+          <option value="">— Selecciona —</option>
+          <option>BOSCAT</option>
+          <option>EXFOCAT</option>
+          <option>BAUTISTA</option>
+          <option>PRESEGUÉ</option>
+          <option>BORNIQUEL</option>
+          <option>JANÉ</option>
+          <option>SERRADORA BOIX</option>
+          <option>FAMADAS</option>
+          <option value="__altre__">Altre...</option>
+        </select>
+        <input type="text" id="f-proveidor-alt" placeholder="Nom del proveïdor" style="display:none;margin-top:8px;">
+      </div>
+      <div class="row-2">
+        <div class="field">
+          <label>Origen (zona)</label>
+          <input type="text" id="f-origen" placeholder="Ex: Berguedà">
+        </div>
+        <div class="field">
+          <label>Finca</label>
+          <input type="text" id="f-finca" placeholder="Nom finca">
+        </div>
+      </div>
+    </div>
+
+    <div class="form-section">
+      <div class="form-section-title">🏭 Destinació</div>
+      <div class="field">
+        <label>Client <span class="req">*</span></label>
+        <select id="f-destinacio" required>
+          <option value="">— Selecciona client —</option>
+          <option>ROFEICA</option>
+          <option>SPT / SANT PERE DE TORELLÓ</option>
+          <option>LIPSA</option>
+          <option>CROMOGENIA</option>
+          <option>NUFRI</option>
+          <option>TSB</option>
+          <option>INDULLEIDA</option>
+          <option>ECONIU</option>
+          <option>VIELHA</option>
+          <option value="__altre__">Altre...</option>
+        </select>
+        <input type="text" id="f-destinacio-alt" placeholder="Nom del client" style="display:none;margin-top:8px;">
+      </div>
+      <div class="field">
+        <label>Transportista</label>
+        <select id="f-transportista">
+          <option value="">— Selecciona —</option>
+          <option>VILAPRAT</option>
+          <option>EXLAND</option>
+          <option>ROJAS</option>
+          <option>ECONIU</option>
+          <option>PORQUERES</option>
+          <option value="__altre__">Altre...</option>
+        </select>
+        <input type="text" id="f-transportista-alt" placeholder="Nom transportista" style="display:none;margin-top:8px;">
+      </div>
+    </div>
+
+    <div class="form-section">
+      <div class="form-section-title">⚖️ Pesades</div>
+      <div class="row-3">
+        <div class="field">
+          <label>Brut (kg)</label>
+          <input type="number" id="f-brut" placeholder="0" min="0" oninput="calcPesNet()">
+        </div>
+        <div class="field">
+          <label>Tara (kg)</label>
+          <input type="number" id="f-tara" placeholder="0" min="0" oninput="calcPesNet()">
+        </div>
+        <div class="field">
+          <label>Pes Net (kg)</label>
+          <div class="pes-net-display" id="pes-net-display">—</div>
+        </div>
+      </div>
+      <div class="row-2" style="margin-top:14px;">
+        <div class="field">
+          <label>Humitat (%)</label>
+          <input type="number" id="f-humitat" placeholder="0" min="0" max="100" step="0.1">
+        </div>
+        <div class="field">
+          <label>Estelladora</label>
+          <select id="f-estelladora">
+            <option value="">— Selecciona —</option>
+            <option>NOVALIA</option>
+            <option>Externa</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-section">
+      <div class="form-section-title">💶 Costos</div>
+      <div class="row-2">
+        <div class="field">
+          <label>Cost Propietari (€)</label>
+          <input type="number" id="f-cost-prop" placeholder="0.00" min="0" step="0.01">
+        </div>
+        <div class="field">
+          <label>Cost Pila (€)</label>
+          <input type="number" id="f-cost-pila" placeholder="0.00" min="0" step="0.01">
+        </div>
+      </div>
+    </div>
+
+    <div class="form-section">
+      <div class="form-section-title">📝 Notes</div>
+      <div class="field">
+        <textarea id="f-notes" placeholder="Notes addicionals..."></textarea>
+      </div>
+    </div>
+
+    <button type="submit" class="btn btn-primary">
+      <span>💾</span> Desar Moviment
+    </button>
+    <div style="height:8px;"></div>
+    <button type="button" class="btn btn-secondary" onclick="resetForm()">
+      <span>🔄</span> Esborrar formulari
+    </button>
+
+  </form>
+</div>
+
+<!-- ===== PANEL LLISTAT ===== -->
+<div class="panel" id="panel-llistat">
+  <div class="llistat-header">
+    <h2>Moviments del mes</h2>
+    <span class="count-badge" id="count-badge">0</span>
+  </div>
+  <div class="search-box">
+    <span>🔍</span>
+    <input type="text" id="search-input" placeholder="Buscar per client, proveïdor..." oninput="renderLlistat()">
+  </div>
+  <div id="llistat-container"></div>
+</div>
+
+<!-- ===== PANEL RESUM ===== -->
+<div class="panel" id="panel-resum">
+  <div id="resum-container"></div>
+</div>
+
+<!-- ===== PANEL EXPORTAR ===== -->
+<div class="panel" id="panel-exportar">
+  <div class="export-section">
+    <h3>📊 Exportar a CSV</h3>
+    <p>Descarrega tots els moviments en format CSV. Pots obrir-lo directament a Excel o importar-lo al fitxer Novalia_Abril2026.xlsx.</p>
+    <button class="btn btn-export" onclick="exportCSV()">
+      <span>⬇️</span> Descarregar CSV
+    </button>
+  </div>
+  <div class="export-section">
+    <h3>📋 Copiar al portapapers</h3>
+    <p>Copia les dades en format tabular per enganxar-les directament a Excel o Google Sheets.</p>
+    <button class="btn btn-primary" onclick="copyToClipboard()">
+      <span>📋</span> Copiar dades
+    </button>
+  </div>
+  <div class="export-section">
+    <h3 style="color:var(--red);">🗑️ Zona de perill</h3>
+    <p>Elimina tots els moviments guardats en aquest dispositiu. Aquesta acció no es pot desfer.</p>
+    <button class="btn btn-danger" onclick="confirmClearAll()">
+      <span>⚠️</span> Esborrar tots els moviments
+    </button>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div id="toast"></div>
+
+<!-- MODAL CONFIRM -->
+<div class="modal-overlay" id="modal-overlay" onclick="closeModal()">
+  <div class="modal" onclick="event.stopPropagation()">
+    <h3 id="modal-title">Confirmar acció</h3>
+    <p id="modal-body">Estàs segur?</p>
+    <div class="modal-actions">
+      <button class="btn btn-secondary" onclick="closeModal()">Cancel·lar</button>
+      <button class="btn btn-danger" id="modal-confirm-btn">Confirmar</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL EDITAR -->
+<div class="modal-overlay" id="edit-overlay" onclick="closeEditModal()">
+  <div class="modal" onclick="event.stopPropagation()" style="border-radius:24px 24px 0 0; max-height:90vh; overflow-y:auto; padding-bottom:48px;">
+    <h3 style="margin-bottom:16px;">✏️ Editar moviment</h3>
+    <div id="edit-form-container"></div>
+  </div>
+</div>
+
+<script>
+// ============================================================
+// DATA STORE
+// ============================================================
+const STORAGE_KEY = 'novalia_moviments_abr26';
+
+function getMoviments() {
+  try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); }
+  catch(e) { return []; }
+}
+
+function saveMoviments(arr) {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(arr));
+}
+
+// ============================================================
+// UTILS
+// ============================================================
+function showToast(msg, type = 'success') {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'show ' + type;
+  setTimeout(() => { t.className = ''; }, 2800);
+}
+
+function calcPesNet() {
+  const brut = parseFloat(document.getElementById('f-brut').value) || 0;
+  const tara = parseFloat(document.getElementById('f-tara').value) || 0;
+  const net = brut - tara;
+  const el = document.getElementById('pes-net-display');
+  if (brut > 0) {
+    el.textContent = net.toLocaleString('ca-ES') + ' kg';
+    el.style.color = net > 0 ? 'var(--green)' : 'var(--red)';
+  } else {
+    el.textContent = '—';
+    el.style.color = 'var(--green)';
+  }
+}
+
+function formatDate(d) {
+  if (!d) return '';
+  const parts = d.split('-');
+  if (parts.length === 3) return `${parts[2]}/${parts[1]}/${parts[0]}`;
+  return d;
+}
+
+function formatNum(n, dec = 0) {
+  if (!n && n !== 0) return '—';
+  return Number(n).toLocaleString('ca-ES', {minimumFractionDigits: dec, maximumFractionDigits: dec});
+}
+
+// ============================================================
+// "ALTRE" SELECTS
+// ============================================================
+document.querySelectorAll('select').forEach(sel => {
+  sel.addEventListener('change', function() {
+    const altId = this.id + '-alt';
+    const altEl = document.getElementById(altId);
+    if (altEl) altEl.style.display = this.value === '__altre__' ? 'block' : 'none';
+  });
+});
+
+function getSelectValue(selId) {
+  const sel = document.getElementById(selId);
+  if (sel.value === '__altre__') {
+    const alt = document.getElementById(selId + '-alt');
+    return alt ? alt.value.trim() : '';
+  }
+  return sel.value;
+}
+
+// ============================================================
+// TABS
+// ============================================================
+function showTab(tab) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  const tabs = ['nou', 'llistat', 'resum', 'exportar'];
+  document.querySelectorAll('.tab')[tabs.indexOf(tab)].classList.add('active');
+  document.getElementById('panel-' + tab).classList.add('active');
+  if (tab === 'llistat') renderLlistat();
+  if (tab === 'resum') renderResum();
+}
+
+// ============================================================
+// SAVE MOVIMENT
+// ============================================================
+function saveMoviment(e) {
+  e.preventDefault();
+
+  const brut = parseFloat(document.getElementById('f-brut').value) || 0;
+  const tara = parseFloat(document.getElementById('f-tara').value) || 0;
+
+  const mov = {
+    id: Date.now(),
+    data: document.getElementById('f-data').value,
+    tipus: document.getElementById('f-tipus').value,
+    proveidor: getSelectValue('f-proveidor'),
+    origen: document.getElementById('f-origen').value.trim(),
+    finca: document.getElementById('f-finca').value.trim(),
+    destinacio: getSelectValue('f-destinacio'),
+    transportista: getSelectValue('f-transportista'),
+    brut,
+    tara,
+    pesNet: brut - tara,
+    humitat: parseFloat(document.getElementById('f-humitat').value) || null,
+    estelladora: document.getElementById('f-estelladora').value,
+    costProp: parseFloat(document.getElementById('f-cost-prop').value) || 0,
+    costPila: parseFloat(document.getElementById('f-cost-pila').value) || 0,
+    notes: document.getElementById('f-notes').value.trim(),
+  };
+
+  const arr = getMoviments();
+  arr.push(mov);
+  saveMoviments(arr);
+
+  showToast('✅ Moviment desat correctament!', 'success');
+  resetForm();
+  document.getElementById('f-data').value = new Date().toISOString().split('T')[0];
+}
+
+function resetForm() {
+  document.getElementById('form-moviment').reset();
+  document.getElementById('pes-net-display').textContent = '—';
+  document.getElementById('f-data').value = new Date().toISOString().split('T')[0];
+  document.querySelectorAll('input[id$="-alt"]').forEach(el => el.style.display = 'none');
+}
+
+// ============================================================
+// RENDER LLISTAT
+// ============================================================
+function renderLlistat() {
+  const arr = getMoviments();
+  const q = (document.getElementById('search-input').value || '').toLowerCase();
+  const filtered = q ? arr.filter(m =>
+    (m.destinacio||'').toLowerCase().includes(q) ||
+    (m.proveidor||'').toLowerCase().includes(q) ||
+    (m.transportista||'').toLowerCase().includes(q) ||
+    (m.origen||'').toLowerCase().includes(q) ||
+    (m.notes||'').toLowerCase().includes(q)
+  ) : arr;
+
+  document.getElementById('count-badge').textContent = arr.length;
+
+  const container = document.getElementById('llistat-container');
+  if (!filtered.length) {
+    container.innerHTML = `<div class="empty-state">
+      <div class="icon">📭</div>
+      <p>${arr.length === 0 ? "Encara no hi ha moviments. Usa la pestanya «Nou» per afegir-ne." : "Cap resultat per «"+q+"»."}</p>
+    </div>`;
+    return;
+  }
+
+  const sorted = [...filtered].sort((a,b) => (b.data||'').localeCompare(a.data||''));
+
+  container.innerHTML = sorted.map(m => {
+    const isServei = m.tipus === 'servei';
+    const pesNetTones = m.pesNet ? (m.pesNet / 1000).toFixed(2) : '—';
+    const pills = [];
+    if (m.estelladora) pills.push(`<span class="pill green">${m.estelladora}</span>`);
+    if (m.transportista) pills.push(`<span class="pill blue">${m.transportista}</span>`);
+    if (m.humitat) pills.push(`<span class="pill orange">H: ${m.humitat}%</span>`);
+    if (m.origen) pills.push(`<span class="pill">${m.origen}</span>`);
+    const hasCosts = m.costProp || m.costPila;
+
+    return `<div class="moviment-card${isServei?' servei':''}">
+      <div class="card-header">
+        <div>
+          <div class="card-date">${formatDate(m.data)} · ${isServei ? '🔧 Servei' : '🌲 Venda'}</div>
+          <div class="card-dest">${m.destinacio || '—'}</div>
+          ${m.proveidor ? `<div class="card-prov">📦 ${m.proveidor}${m.finca ? ' · ' + m.finca : ''}</div>` : ''}
+        </div>
+        <div class="card-pes">
+          <div class="value">${pesNetTones}</div>
+          <div class="unit">tones netes</div>
+          ${m.pesNet ? `<div class="unit" style="margin-top:2px">${formatNum(m.pesNet)} kg</div>` : ''}
+        </div>
+      </div>
+      ${pills.length ? `<div class="card-pills">${pills.join('')}</div>` : ''}
+      ${hasCosts ? `<div class="card-costs">
+        ${m.costProp ? `Cost prop.: <span>${formatNum(m.costProp, 2)} €</span>` : ''}
+        ${m.costPila ? `Cost pila: <span>${formatNum(m.costPila, 2)} €</span>` : ''}
+      </div>` : ''}
+      ${m.notes ? `<div style="margin-top:8px;font-size:0.8rem;color:var(--text-light);font-style:italic;">"${m.notes}"</div>` : ''}
+      <div class="card-actions">
+        <button class="btn btn-secondary btn-sm" onclick="editMoviment(${m.id})">✏️ Editar</button>
+        <button class="btn btn-danger btn-sm" onclick="confirmDelete(${m.id})">🗑️ Eliminar</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ============================================================
+// RENDER RESUM
+// ============================================================
+function renderResum() {
+  const arr = getMoviments();
+  const container = document.getElementById('resum-container');
+
+  if (!arr.length) {
+    container.innerHTML = `<div class="empty-state"><div class="icon">📊</div><p>Afegeix moviments per veure el resum.</p></div>`;
+    return;
+  }
+
+  const totalPesNet = arr.reduce((s, m) => s + (m.pesNet || 0), 0);
+  const totalTones = totalPesNet / 1000;
+  const nViatges = arr.length;
+  const tonMitja = nViatges ? totalTones / nViatges : 0;
+  const totalCostProp = arr.reduce((s, m) => s + (m.costProp || 0), 0);
+  const totalCostPila = arr.reduce((s, m) => s + (m.costPila || 0), 0);
+  const totalCosts = totalCostProp + totalCostPila;
+
+  const perClient = {};
+  arr.forEach(m => {
+    const k = m.destinacio || 'Sense client';
+    if (!perClient[k]) perClient[k] = { viatges: 0, tones: 0 };
+    perClient[k].viatges++;
+    perClient[k].tones += (m.pesNet || 0) / 1000;
+  });
+
+  const perTransp = {};
+  arr.forEach(m => {
+    if (!m.transportista) return;
+    if (!perTransp[m.transportista]) perTransp[m.transportista] = { viatges: 0, tones: 0 };
+    perTransp[m.transportista].viatges++;
+    perTransp[m.transportista].tones += (m.pesNet || 0) / 1000;
+  });
+
+  container.innerHTML = `
+    <div class="resum-grid">
+      <div class="resum-card">
+        <div class="value">${formatNum(totalTones, 1)} t</div>
+        <div class="label">Tones netes total</div>
+      </div>
+      <div class="resum-card">
+        <div class="value">${nViatges}</div>
+        <div class="label">Viatges / moviments</div>
+      </div>
+      <div class="resum-card">
+        <div class="value">${formatNum(tonMitja, 1)} t</div>
+        <div class="label">Tones mitja/viatge</div>
+      </div>
+      <div class="resum-card blue">
+        <div class="value" style="font-size:1.1rem;">${formatNum(totalCosts, 0)} €</div>
+        <div class="label">Cost total pila+prop</div>
+      </div>
+    </div>
+    <div class="form-section">
+      <div class="form-section-title">Per client</div>
+      ${Object.entries(perClient).sort((a,b) => b[1].tones - a[1].tones).map(([k, v]) => `
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--grey-light);">
+          <div>
+            <div style="font-weight:600;font-size:0.9rem;">${k}</div>
+            <div style="font-size:0.75rem;color:var(--text-light);">${v.viatges} viatge${v.viatges!==1?'s':''}</div>
+          </div>
+          <div style="font-weight:700;color:var(--green);">${formatNum(v.tones,1)} t</div>
+        </div>
+      `).join('')}
+    </div>
+    ${Object.keys(perTransp).length ? `
+    <div class="form-section">
+      <div class="form-section-title">Per transportista</div>
+      ${Object.entries(perTransp).sort((a,b) => b[1].viatges - a[1].viatges).map(([k, v]) => `
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--grey-light);">
+          <div>
+            <div style="font-weight:600;font-size:0.9rem;">${k}</div>
+            <div style="font-size:0.75rem;color:var(--text-light);">${v.viatges} viatge${v.viatges!==1?'s':''}</div>
+          </div>
+          <div style="font-weight:700;color:#1565c0;">${formatNum(v.tones,1)} t</div>
+        </div>
+      `).join('')}
+    </div>` : ''}
+  `;
+}
+
+// ============================================================
+// DELETE / CLEAR
+// ============================================================
+let pendingDeleteId = null;
+
+function confirmDelete(id) {
+  pendingDeleteId = id;
+  document.getElementById('modal-title').textContent = 'Eliminar moviment';
+  document.getElementById('modal-body').textContent = 'Estàs segur que vols eliminar aquest moviment? No es pot recuperar.';
+  document.getElementById('modal-confirm-btn').textContent = 'Eliminar';
+  document.getElementById('modal-confirm-btn').onclick = deleteMoviment;
+  document.getElementById('modal-overlay').classList.add('show');
+}
+
+function deleteMoviment() {
+  saveMoviments(getMoviments().filter(m => m.id !== pendingDeleteId));
+  closeModal();
+  renderLlistat();
+  showToast('🗑️ Moviment eliminat', 'success');
+}
+
+function closeModal() {
+  document.getElementById('modal-overlay').classList.remove('show');
+  pendingDeleteId = null;
+}
+
+function confirmClearAll() {
+  document.getElementById('modal-title').textContent = '⚠️ Esborrar tot';
+  document.getElementById('modal-body').textContent = 'Estàs segur que vols eliminar TOTS els moviments? Aquesta acció no es pot desfer.';
+  document.getElementById('modal-confirm-btn').textContent = '⚠️ Esborrar tot';
+  document.getElementById('modal-confirm-btn').onclick = () => { saveMoviments([]); closeModal(); showToast('🗑️ Tot eliminat', 'success'); };
+  document.getElementById('modal-overlay').classList.add('show');
+}
+
+// ============================================================
+// EDIT
+// ============================================================
+function editMoviment(id) {
+  const m = getMoviments().find(x => x.id === id);
+  if (!m) return;
+
+  document.getElementById('edit-form-container').innerHTML = `
+    <div class="field"><label>Data</label><input type="date" id="e-data" value="${m.data||''}"></div>
+    <div class="field"><label>Tipus</label><select id="e-tipus">
+      <option value="venda"${m.tipus==='venda'?' selected':''}>Venda Biomassa</option>
+      <option value="servei"${m.tipus==='servei'?' selected':''}>Servei / Boscat</option>
+    </select></div>
+    <div class="field"><label>Proveïdor</label><input type="text" id="e-proveidor" value="${m.proveidor||''}"></div>
+    <div class="field"><label>Origen</label><input type="text" id="e-origen" value="${m.origen||''}"></div>
+    <div class="field"><label>Finca</label><input type="text" id="e-finca" value="${m.finca||''}"></div>
+    <div class="field"><label>Client (Destinació)</label><input type="text" id="e-destinacio" value="${m.destinacio||''}"></div>
+    <div class="field"><label>Transportista</label><input type="text" id="e-transportista" value="${m.transportista||''}"></div>
+    <div class="row-3">
+      <div class="field"><label>Brut (kg)</label><input type="number" id="e-brut" value="${m.brut||''}" oninput="calcEditNet()"></div>
+      <div class="field"><label>Tara (kg)</label><input type="number" id="e-tara" value="${m.tara||''}" oninput="calcEditNet()"></div>
+      <div class="field"><label>Pes Net</label><div class="pes-net-display" id="e-pesnet-display">${m.pesNet ? formatNum(m.pesNet)+' kg' : '—'}</div></div>
+    </div>
+    <div class="row-2">
+      <div class="field"><label>Humitat (%)</label><input type="number" id="e-humitat" value="${m.humitat||''}" step="0.1"></div>
+      <div class="field"><label>Estelladora</label><select id="e-estelladora">
+        <option value="">—</option>
+        <option${m.estelladora==='NOVALIA'?' selected':''}>NOVALIA</option>
+        <option${m.estelladora==='Externa'?' selected':''}>Externa</option>
+      </select></div>
+    </div>
+    <div class="row-2">
+      <div class="field"><label>Cost Propietari (€)</label><input type="number" id="e-costprop" value="${m.costProp||''}" step="0.01"></div>
+      <div class="field"><label>Cost Pila (€)</label><input type="number" id="e-costpila" value="${m.costPila||''}" step="0.01"></div>
+    </div>
+    <div class="field"><label>Notes</label><textarea id="e-notes">${m.notes||''}</textarea></div>
+    <button class="btn btn-primary" onclick="saveEdit(${id})">💾 Desar canvis</button>
+    <div style="height:8px;"></div>
+    <button class="btn btn-secondary" onclick="closeEditModal()">Cancel·lar</button>
+  `;
+
+  document.getElementById('edit-overlay').classList.add('show');
+}
+
+function calcEditNet() {
+  const brut = parseFloat(document.getElementById('e-brut').value) || 0;
+  const tara = parseFloat(document.getElementById('e-tara').value) || 0;
+  document.getElementById('e-pesnet-display').textContent = brut > 0 ? formatNum(brut - tara) + ' kg' : '—';
+}
+
+function saveEdit(id) {
+  const arr = getMoviments();
+  const idx = arr.findIndex(x => x.id === id);
+  if (idx === -1) return;
+  const brut = parseFloat(document.getElementById('e-brut').value) || 0;
+  const tara = parseFloat(document.getElementById('e-tara').value) || 0;
+  arr[idx] = {
+    ...arr[idx],
+    data: document.getElementById('e-data').value,
+    tipus: document.getElementById('e-tipus').value,
+    proveidor: document.getElementById('e-proveidor').value.trim(),
+    origen: document.getElementById('e-origen').value.trim(),
+    finca: document.getElementById('e-finca').value.trim(),
+    destinacio: document.getElementById('e-destinacio').value.trim(),
+    transportista: document.getElementById('e-transportista').value.trim(),
+    brut, tara, pesNet: brut - tara,
+    humitat: parseFloat(document.getElementById('e-humitat').value) || null,
+    estelladora: document.getElementById('e-estelladora').value,
+    costProp: parseFloat(document.getElementById('e-costprop').value) || 0,
+    costPila: parseFloat(document.getElementById('e-costpila').value) || 0,
+    notes: document.getElementById('e-notes').value.trim(),
+  };
+  saveMoviments(arr);
+  closeEditModal();
+  renderLlistat();
+  showToast('✅ Moviment actualitzat', 'success');
+}
+
+function closeEditModal() {
+  document.getElementById('edit-overlay').classList.remove('show');
+}
+
+// ============================================================
+// EXPORT
+// ============================================================
+function exportCSV() {
+  const arr = getMoviments();
+  if (!arr.length) { showToast('⚠️ No hi ha dades per exportar', 'error'); return; }
+
+  const cols = ['Data','Tipus','Proveïdor','Origen','Finca','Destinació','Transportista',
+    'Brut (kg)','Tara (kg)','Pes Net (kg)','Humitat (%)','Estelladora',
+    'Cost Propietari (€)','Cost Pila (€)','Notes'];
+
+  const rows = arr.map(m => [
+    m.data, m.tipus, m.proveidor, m.origen, m.finca, m.destinacio, m.transportista,
+    m.brut, m.tara, m.pesNet, m.humitat||'', m.estelladora,
+    m.costProp, m.costPila, m.notes
+  ]);
+
+  const csv = [cols, ...rows].map(r =>
+    r.map(c => `"${String(c||'').replace(/"/g,'""')}"`).join(';')
+  ).join('\r\n');
+
+  const blob = new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8;' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `Novalia_Moviments_Abr2026_${new Date().toISOString().split('T')[0]}.csv`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+  showToast('⬇️ CSV descarregat!', 'success');
+}
+
+function copyToClipboard() {
+  const arr = getMoviments();
+  if (!arr.length) { showToast('⚠️ No hi ha dades per copiar', 'error'); return; }
+
+  const cols = ['Data','Tipus','Proveïdor','Origen','Finca','Destinació','Transportista',
+    'Brut (kg)','Tara (kg)','Pes Net (kg)','Humitat (%)','Estelladora',
+    'Cost Propietari (€)','Cost Pila (€)','Notes'];
+
+  const rows = arr.map(m => [
+    m.data, m.tipus, m.proveidor||'', m.origen||'', m.finca||'', m.destinacio||'', m.transportista||'',
+    m.brut||'', m.tara||'', m.pesNet||'', m.humitat||'', m.estelladora||'',
+    m.costProp||'', m.costPila||'', m.notes||''
+  ]);
+
+  const text = [cols, ...rows].map(r => r.join('\t')).join('\n');
+
+  navigator.clipboard.writeText(text).then(() => {
+    showToast('📋 Dades copiades!', 'success');
+  }).catch(() => {
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.cssText = 'position:fixed;opacity:0';
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    showToast('📋 Dades copiades!', 'success');
+  });
+}
+
+// ============================================================
+// INIT + SERVICE WORKER
+// ============================================================
+document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('f-data').value = new Date().toISOString().split('T')[0];
+  document.getElementById('count-badge').textContent = getMoviments().length;
+});
+
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('./sw.js').catch(() => {});
+  });
+}
+</script>
+</body>
+</html>
