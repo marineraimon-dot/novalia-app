@@ -455,30 +455,124 @@
     <div class="form-section">
       <div class="form-section-title">🌲 Origen</div>
       <div class="field">
-        <label>Proveïdor</label>
-        <select id="f-proveidor">
-          <option value="">— Selecciona —</option>
-          <option>BOSCAT</option>
-          <option>EXFOCAT</option>
-          <option>BAUTISTA</option>
-          <option>PRESEGUÉ</option>
-          <option>BORNIQUEL</option>
-          <option>JANÉ</option>
-          <option>SERRADORA BOIX</option>
-          <option>FAMADAS</option>
+        <label>Pila / Origen <span class="req">*</span></label>
+        <select id="f-origen">
+          <option value="">— Selecciona pila —</option>
+          <option>MOIÀ 1</option>
+          <option>MOIÀ 2</option>
+          <option>ARTÈS</option>
+          <option>SANT BARTOMEU DEL GRAU</option>
+          <option>SANT JOAN DE L'ERM</option>
+          <option>PORT DEL COMTE</option>
+          <option>LLOBERA</option>
+          <option>L'ORDAL</option>
+          <option>CAN CANALS</option>
+          <option>PATI ALAMÚS</option>
+          <option>PATI BOSCAT</option>
+          <option>SERRADORA EL PLA</option>
+          <option>PATI NOVALIA</option>
+          <option>CLAPERS</option>
+          <option>RIVES BLAVES</option>
+          <option>INCENDI SPS</option>
+          <option>EL BRUC</option>
+          <option>SEAT</option>
+          <option>CAN MARC</option>
+          <option>CASA BELTRANET</option>
+          <option>CASTILLEJOS</option>
+          <option>PEATGE S.CELONI</option>
+          <option>PATI CASSI</option>
+          <option>L'AMETLLA</option>
+          <option>CALLDETENES</option>
+          <option>PREMIÀ</option>
+          <option>RASOS</option>
+          <option>CAN MATA</option>
           <option value="__altre__">Altre...</option>
         </select>
-        <input type="text" id="f-proveidor-alt" placeholder="Nom del proveïdor" style="display:none;margin-top:8px;">
+        <input type="text" id="f-origen-alt" placeholder="Nom de la pila / origen" style="display:none;margin-top:8px;">
       </div>
       <div class="row-2">
         <div class="field">
-          <label>Origen (zona)</label>
-          <input type="text" id="f-origen" placeholder="Ex: Berguedà">
+          <label>Municipi origen</label>
+          <select id="f-municipi">
+            <option value="">— Municipi —</option>
+            <option>Abrera</option>
+            <option>Arbolí</option>
+            <option>Artès</option>
+            <option>Calldetenes</option>
+            <option>Corbera de Llobregat</option>
+            <option>El Bruc</option>
+            <option>El Pla de Santa Maria</option>
+            <option>Els Alamús</option>
+            <option>Hostalets de Pierola</option>
+            <option>L'Ametlla del Vallès</option>
+            <option>La Coma i la Pedra</option>
+            <option>La Pobla de Claramunt</option>
+            <option>Llobera</option>
+            <option>Moià</option>
+            <option>Olèrdola</option>
+            <option>Premià de Mar</option>
+            <option>Rajadell</option>
+            <option>Rasos de Peguera</option>
+            <option>Sant Bartomeu del Grau</option>
+            <option>Sant Celoni</option>
+            <option>Sant Joan de l'Erm</option>
+            <option>Sant Pere Sallavinera</option>
+            <option>Santa Maria d'Oló</option>
+            <option>Subirats</option>
+            <option>Viladecavalls</option>
+            <option value="__altre__">Altre...</option>
+          </select>
+          <input type="text" id="f-municipi-alt" placeholder="Municipi" style="display:none;margin-top:8px;">
         </div>
         <div class="field">
-          <label>Finca</label>
-          <input type="text" id="f-finca" placeholder="Nom finca">
+          <label>Finca / Parcel·la</label>
+          <select id="f-finca">
+            <option value="">— Finca —</option>
+            <option>Abocador Can Mata</option>
+            <option>Abocador/Fàbrica</option>
+            <option>AUTOPISTA</option>
+            <option>BOIXADORS</option>
+            <option>CAN CANALS</option>
+            <option>CAN MARC</option>
+            <option>CAN SOLÀ</option>
+            <option>CASA BELTRANET</option>
+            <option>CASTILLEJOS</option>
+            <option>Carretera</option>
+            <option>CLAPERS</option>
+            <option>Can Rovira</option>
+            <option>PARÈS</option>
+            <option>Pati Presegué</option>
+            <option>Pati germans Cassi</option>
+            <option>PATI SERRADORA</option>
+            <option>Peatge antic AP7</option>
+            <option>PISTES</option>
+            <option>RIVES BLAVES</option>
+            <option>VILAMORÓS</option>
+            <option value="__altre__">Altre...</option>
+          </select>
+          <input type="text" id="f-finca-alt" placeholder="Nom finca" style="display:none;margin-top:8px;">
         </div>
+      </div>
+      <div class="field">
+        <label>Proveïdor</label>
+        <select id="f-proveidor">
+          <option value="">— Selecciona —</option>
+          <option>BAUTISTA</option>
+          <option>BOIX</option>
+          <option>BOSCAT FUSTA</option>
+          <option>EXFOCAT</option>
+          <option>FAMADAS/CASSI</option>
+          <option>FAMADAS/LLENÇ</option>
+          <option>FUSTES JANÉ</option>
+          <option>GRIGORE</option>
+          <option>NOVALIA</option>
+          <option>PRESEGUÉ</option>
+          <option>SERFOCAT</option>
+          <option>SOLÀ</option>
+          <option>ALTRES</option>
+          <option value="__altre__">Altre...</option>
+        </select>
+        <input type="text" id="f-proveidor-alt" placeholder="Nom del proveïdor" style="display:none;margin-top:8px;">
       </div>
     </div>
 
@@ -489,14 +583,16 @@
         <select id="f-destinacio" required>
           <option value="">— Selecciona client —</option>
           <option>ROFEICA</option>
-          <option>SPT / SANT PERE DE TORELLÓ</option>
+          <option>SPT</option>
           <option>LIPSA</option>
           <option>CROMOGENIA</option>
           <option>NUFRI</option>
           <option>TSB</option>
           <option>INDULLEIDA</option>
-          <option>ECONIU</option>
           <option>VIELHA</option>
+          <option>PATI ALAMÚS</option>
+          <option>PATI NOVALIA</option>
+          <option>PATI BOSCAT</option>
           <option value="__altre__">Altre...</option>
         </select>
         <input type="text" id="f-destinacio-alt" placeholder="Nom del client" style="display:none;margin-top:8px;">
@@ -508,8 +604,8 @@
           <option>VILAPRAT</option>
           <option>EXLAND</option>
           <option>ROJAS</option>
-          <option>ECONIU</option>
           <option>PORQUERES</option>
+          <option>AGROMET</option>
           <option value="__altre__">Altre...</option>
         </select>
         <input type="text" id="f-transportista-alt" placeholder="Nom transportista" style="display:none;margin-top:8px;">
@@ -542,7 +638,10 @@
           <select id="f-estelladora">
             <option value="">— Selecciona —</option>
             <option>NOVALIA</option>
-            <option>Externa</option>
+            <option>ROJAS</option>
+            <option>AGROMET</option>
+            <option>ZEFFERINO</option>
+            <option>ALTRES</option>
           </select>
         </div>
       </div>
@@ -744,8 +843,9 @@ function saveMoviment(e) {
     data: document.getElementById('f-data').value,
     tipus: document.getElementById('f-tipus').value,
     proveidor: getSelectValue('f-proveidor'),
-    origen: document.getElementById('f-origen').value.trim(),
-    finca: document.getElementById('f-finca').value.trim(),
+    origen: getSelectValue('f-origen'),
+    municipi: getSelectValue('f-municipi'),
+    finca: getSelectValue('f-finca'),
     destinacio: getSelectValue('f-destinacio'),
     transportista: getSelectValue('f-transportista'),
     brut,
@@ -816,6 +916,7 @@ function renderLlistat() {
         <div>
           <div class="card-date">${formatDate(m.data)} · ${isServei ? '🔧 Servei' : '🌲 Venda'}</div>
           <div class="card-dest">${m.destinacio || '—'}</div>
+          ${m.origen ? `<div class="card-prov">🪵 ${m.origen}${m.municipi ? ' · ' + m.municipi : ''}</div>` : ''}
           ${m.proveidor ? `<div class="card-prov">📦 ${m.proveidor}${m.finca ? ' · ' + m.finca : ''}</div>` : ''}
         </div>
         <div class="card-pes">
@@ -968,9 +1069,10 @@ function editMoviment(id) {
       <option value="venda"${m.tipus==='venda'?' selected':''}>Venda Biomassa</option>
       <option value="servei"${m.tipus==='servei'?' selected':''}>Servei / Boscat</option>
     </select></div>
+    <div class="field"><label>Pila / Origen</label><input type="text" id="e-origen" value="${m.origen||''}"></div>
+    <div class="field"><label>Municipi origen</label><input type="text" id="e-municipi" value="${m.municipi||''}"></div>
+    <div class="field"><label>Finca / Parcel·la</label><input type="text" id="e-finca" value="${m.finca||''}"></div>
     <div class="field"><label>Proveïdor</label><input type="text" id="e-proveidor" value="${m.proveidor||''}"></div>
-    <div class="field"><label>Origen</label><input type="text" id="e-origen" value="${m.origen||''}"></div>
-    <div class="field"><label>Finca</label><input type="text" id="e-finca" value="${m.finca||''}"></div>
     <div class="field"><label>Client (Destinació)</label><input type="text" id="e-destinacio" value="${m.destinacio||''}"></div>
     <div class="field"><label>Transportista</label><input type="text" id="e-transportista" value="${m.transportista||''}"></div>
     <div class="row-3">
@@ -1015,9 +1117,10 @@ function saveEdit(id) {
     ...arr[idx],
     data: document.getElementById('e-data').value,
     tipus: document.getElementById('e-tipus').value,
-    proveidor: document.getElementById('e-proveidor').value.trim(),
     origen: document.getElementById('e-origen').value.trim(),
+    municipi: document.getElementById('e-municipi').value.trim(),
     finca: document.getElementById('e-finca').value.trim(),
+    proveidor: document.getElementById('e-proveidor').value.trim(),
     destinacio: document.getElementById('e-destinacio').value.trim(),
     transportista: document.getElementById('e-transportista').value.trim(),
     brut, tara, pesNet: brut - tara,
@@ -1044,12 +1147,12 @@ function exportCSV() {
   const arr = getMoviments();
   if (!arr.length) { showToast('⚠️ No hi ha dades per exportar', 'error'); return; }
 
-  const cols = ['Data','Tipus','Proveïdor','Origen','Finca','Destinació','Transportista',
+  const cols = ['Data','Tipus','Pila / Origen','Municipi origen','Finca','Proveïdor','Destinació','Transportista',
     'Brut (kg)','Tara (kg)','Pes Net (kg)','Humitat (%)','Estelladora',
     'Cost Propietari (€)','Cost Pila (€)','Notes'];
 
   const rows = arr.map(m => [
-    m.data, m.tipus, m.proveidor, m.origen, m.finca, m.destinacio, m.transportista,
+    m.data, m.tipus, m.origen, m.municipi||'', m.finca, m.proveidor, m.destinacio, m.transportista,
     m.brut, m.tara, m.pesNet, m.humitat||'', m.estelladora,
     m.costProp, m.costPila, m.notes
   ]);
@@ -1074,12 +1177,12 @@ function copyToClipboard() {
   const arr = getMoviments();
   if (!arr.length) { showToast('⚠️ No hi ha dades per copiar', 'error'); return; }
 
-  const cols = ['Data','Tipus','Proveïdor','Origen','Finca','Destinació','Transportista',
+  const cols = ['Data','Tipus','Pila / Origen','Municipi origen','Finca','Proveïdor','Destinació','Transportista',
     'Brut (kg)','Tara (kg)','Pes Net (kg)','Humitat (%)','Estelladora',
     'Cost Propietari (€)','Cost Pila (€)','Notes'];
 
   const rows = arr.map(m => [
-    m.data, m.tipus, m.proveidor||'', m.origen||'', m.finca||'', m.destinacio||'', m.transportista||'',
+    m.data, m.tipus, m.origen||'', m.municipi||'', m.finca||'', m.proveidor||'', m.destinacio||'', m.transportista||'',
     m.brut||'', m.tara||'', m.pesNet||'', m.humitat||'', m.estelladora||'',
     m.costProp||'', m.costPila||'', m.notes||''
   ]);
