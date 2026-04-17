@@ -1,4 +1,4 @@
-const CACHE = 'novalia-v1';
+const CACHE = 'novalia-v2';
 const ASSETS = [
   './',
   './index.html',
