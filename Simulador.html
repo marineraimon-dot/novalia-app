@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Novalia Sim">
+<title>Novalia — Simulador</title>
+<style>
+:root {
+  --green:       #2e7d32;
+  --green-light: #43a047;
+  --green-pale:  #e8f5e9;
+  --green-mid:   #c8e6c9;
+  --blue:        #1565c0;
+  --blue-pale:   #e3f2fd;
+  --orange:      #e65100;
+  --orange-pale: #fff3e0;
+  --red:         #c62828;
+  --red-pale:    #ffebee;
+  --grey:        #546e7a;
+  --grey-light:  #eceff1;
+  --grey-mid:    #b0bec5;
+  --text:        #263238;
+  --text-light:  #546e7a;
+  --shadow:      0 2px 8px rgba(0,0,0,0.12);
+  --radius:      12px;
+  --radius-sm:   8px;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #f0f4f0;
+  color: var(--text);
+  min-height: 100vh;
+  padding-bottom: 100px;
+}
+
+/* HEADER */
+header {
+  background: var(--green);
+  color: white;
+  padding: 14px 16px 12px;
+  position: sticky; top: 0; z-index: 100;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  display: flex; align-items: center; justify-content: space-between;
+}
+header h1 { font-size: 1.1rem; font-weight: 700; }
+header .subtitle { font-size: 0.72rem; opacity: 0.85; margin-top: 2px; }
+.header-back {
+  background: rgba(255,255,255,0.2); border-radius: 20px;
+  padding: 5px 12px; font-size: 0.8rem; font-weight: 600;
+  text-decoration: none; color: white;
+}
+
+/* SECTIONS */
+.section {
+  background: white; border-radius: var(--radius);
+  padding: 16px; margin: 12px 12px 0;
+  box-shadow: var(--shadow);
+}
+.section-title {
+  font-size: 0.68rem; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 1px; color: var(--green);
+  margin-bottom: 14px; padding-bottom: 8px;
+  border-bottom: 1px solid var(--green-pale);
+}
+.field { margin-bottom: 12px; }
+.field:last-child { margin-bottom: 0; }
+label {
+  display: block; font-size: 0.72rem; font-weight: 600;
+  color: var(--text-light); margin-bottom: 5px;
+  text-transform: uppercase; letter-spacing: 0.4px;
+}
+.label-hint { font-weight: 400; color: var(--grey-mid); text-transform: none; margin-left: 4px; }
+input[type="number"], select {
+  width: 100%; padding: 11px 13px;
+  border: 1.5px solid var(--grey-mid);
+  border-radius: var(--radius-sm);
+  font-size: 1rem; color: var(--text);
+  background: white; appearance: none; -webkit-appearance: none;
+  transition: border-color 0.2s; font-family: inherit;
+}
+input:focus, select:focus {
+  outline: none; border-color: var(--green-light);
+  box-shadow: 0 0 0 3px var(--green-pale);
+}
+select {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%23546e7a' d='M6 8L0 0h12z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat; background-position: right 13px center;
+  padding-right: 34px;
+}
+.row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.row-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
+
+/* SLIDER */
+.slider-wrap { display: flex; align-items: center; gap: 10px; }
+.slider-wrap input[type="range"] {
+  flex: 1; height: 6px; border: none; padding: 0;
+  -webkit-appearance: none; appearance: none;
+  background: var(--grey-light); border-radius: 3px;
+  box-shadow: none;
+}
+.slider-wrap input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none; width: 22px; height: 22px;
+  border-radius: 50%; background: var(--green);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2); cursor: pointer;
+}
+.slider-val {
+  min-width: 52px; text-align: center;
+  font-size: 1rem; font-weight: 700; color: var(--green);
+  background: var(--green-pale); border-radius: var(--radius-sm);
+  padding: 6px 4px;
+}
+
+/* TOGGLE PATI */
+.toggle-row {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 10px 0;
+}
+.toggle-label { font-size: 0.95rem; font-weight: 600; color: var(--text); }
+.toggle-sub { font-size: 0.78rem; color: var(--text-light); margin-top: 2px; }
+.toggle {
+  position: relative; display: inline-block;
+  width: 52px; height: 30px; flex-shrink: 0;
+}
+.toggle input { opacity: 0; width: 0; height: 0; }
+.toggle-slider {
+  position: absolute; cursor: pointer; inset: 0;
+  background: var(--grey-mid); border-radius: 30px;
+  transition: 0.3s;
+}
+.toggle-slider:before {
+  content: ''; position: absolute;
+  height: 22px; width: 22px; left: 4px; bottom: 4px;
+  background: white; border-radius: 50%;
+  transition: 0.3s; box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+}
+.toggle input:checked + .toggle-slider { background: var(--green); }
+.toggle input:checked + .toggle-slider:before { transform: translateX(22px); }
+
+/* PATI EXPANDED */
+.pati-box {
+  background: var(--green-pale); border-radius: var(--radius-sm);
+  padding: 12px; margin-top: 10px; display: none;
+}
+.pati-box.show { display: block; }
+.pati-box label { color: var(--green); }
+.pati-box input[type="number"] { background: white; }
+
+/* MIX SLIDER */
+.mix-bar-wrap { margin-top: 6px; }
+.mix-bar {
+  height: 12px; border-radius: 6px; overflow: hidden;
+  display: flex; margin-top: 4px;
+}
+.mix-bar-dir { background: var(--green); transition: width 0.3s; }
+.mix-bar-pati { background: var(--blue); flex: 1; }
+.mix-labels {
+  display: flex; justify-content: space-between;
+  font-size: 0.72rem; margin-top: 4px;
+}
+.mix-labels .dir { color: var(--green); font-weight: 600; }
+.mix-labels .pati { color: var(--blue); font-weight: 600; }
+
+/* RESULTS */
+.result-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 10px;
+  margin-bottom: 12px;
+}
+.result-card {
+  background: var(--grey-light); border-radius: var(--radius-sm);
+  padding: 12px; text-align: center;
+}
+.result-card .val {
+  font-size: 1.3rem; font-weight: 800; color: var(--text);
+  line-height: 1.2;
+}
+.result-card .lbl {
+  font-size: 0.68rem; color: var(--text-light); margin-top: 3px;
+  font-weight: 600; text-transform: uppercase; letter-spacing: 0.4px;
+}
+.result-card.green { background: var(--green-pale); }
+.result-card.green .val { color: var(--green); }
+.result-card.blue { background: var(--blue-pale); }
+.result-card.blue .val { color: var(--blue); }
+.result-card.orange { background: var(--orange-pale); }
+.result-card.orange .val { color: var(--orange); }
+.result-card.red { background: var(--red-pale); }
+.result-card.red .val { color: var(--red); }
+
+/* MARGE HERO */
+.marge-hero {
+  border-radius: var(--radius); padding: 18px 16px;
+  text-align: center; margin-bottom: 12px;
+  transition: background 0.3s;
+}
+.marge-hero .marge-label { font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; opacity: 0.8; }
+.marge-hero .marge-val { font-size: 2.2rem; font-weight: 900; line-height: 1.1; margin: 6px 0 4px; }
+.marge-hero .marge-sub { font-size: 0.88rem; opacity: 0.85; }
+.marge-hero.positiu { background: var(--green); color: white; }
+.marge-hero.baix { background: #f57f17; color: white; }
+.marge-hero.negatiu { background: var(--red); color: white; }
+
+/* DESGLOS */
+.desglos-row {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 8px 0; border-bottom: 1px solid var(--grey-light);
+  font-size: 0.88rem;
+}
+.desglos-row:last-child { border-bottom: none; }
+.desglos-row .name { color: var(--text-light); }
+.desglos-row .amount { font-weight: 700; color: var(--text); }
+.desglos-row.total-row { padding-top: 10px; margin-top: 2px; }
+.desglos-row.total-row .name { color: var(--text); font-weight: 700; }
+.desglos-row.total-row .amount { color: var(--red); }
+.desglos-row.preu-row .amount { color: var(--green); }
+
+/* AVÍS HUMITAT */
+.humitat-avís {
+  background: var(--orange-pale); border-radius: var(--radius-sm);
+  padding: 8px 12px; margin-top: 8px;
+  font-size: 0.8rem; color: var(--orange); font-weight: 500;
+  display: none;
+}
+.humitat-avís.show { display: block; }
+
+/* BOTTOM NAV */
+.bottom-nav {
+  position: fixed; bottom: 0; left: 0; right: 0;
+  background: white; border-top: 1px solid var(--green-mid);
+  display: flex; padding: 8px 0 max(8px, env(safe-area-inset-bottom));
+  z-index: 100;
+}
+.nav-btn {
+  flex: 1; text-align: center; font-size: 0.72rem;
+  font-weight: 600; color: var(--grey); padding: 6px 4px;
+  text-decoration: none; cursor: pointer;
+}
+.nav-btn .icon { font-size: 1.2rem; display: block; margin-bottom: 2px; }
+.nav-btn.active { color: var(--green); }
+
+/* UTILS */
+.sep { height: 1px; background: var(--grey-light); margin: 12px 0; }
+.chip {
+  display: inline-block; background: var(--green-pale);
+  color: var(--green); border-radius: 12px;
+  padding: 3px 10px; font-size: 0.75rem; font-weight: 600;
+  margin-right: 4px;
+}
+.chip.blue { background: var(--blue-pale); color: var(--blue); }
+</style>
+</head>
+<body>
+
+<header>
+  <div>
+    <h1>🌲 Simulador Biomassa</h1>
+    <div class="subtitle">Novalia Forestal · Compra/Venda Estella</div>
+  </div>
+  <a class="header-back" href="index.html">← App</a>
+</header>
+
+<!-- ════════════ SECCIÓ 1 · IDENTIFICACIÓ ════════════ -->
+<div class="section">
+  <div class="section-title">🎯 Identificació</div>
+
+  <div class="row-2">
+    <div class="field">
+      <label>Proveïdor</label>
+      <select id="s-proveidor" onchange="recalc()">
+        <option value="">— Selecciona —</option>
+        <option>PRESEGUÉ</option>
+        <option>BAUTISTA</option>
+        <option>BOSCAT FUSTA</option>
+        <option>EXFOCAT</option>
+        <option>FAMADAS/CASSI</option>
+        <option>FAMADAS/LLENÇ</option>
+        <option>FUSTES JANÉ</option>
+        <option>GRIGORE</option>
+        <option>SERFOCAT</option>
+        <option>SOLÀ</option>
+        <option>BOIX</option>
+        <option>ALTRES</option>
+      </select>
+    </div>
+    <div class="field">
+      <label>Destí / Client</label>
+      <select id="s-desti" onchange="onDestiChange()">
+        <option value="">— Selecciona —</option>
+        <option data-preu="21.5">ROFEICA</option>
+        <option data-preu="21.0">SPT</option>
+        <option data-preu="25.0">LIPSA</option>
+        <option data-preu="21.5">TSB</option>
+        <option data-preu="25.0">CROMOGENIA</option>
+        <option data-preu="25.0">NUFRI</option>
+        <option data-preu="25.0">INDULLEIDA</option>
+        <option data-preu="">VIELHA</option>
+        <option data-preu="">ALTRE</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="field">
+    <label>Preu de venda <span class="label-hint">(auto des del client, editable)</span></label>
+    <div class="row-2">
+      <div>
+        <input type="number" id="s-preu-mwh" placeholder="€/MWh" step="0.5" min="0"
+               oninput="recalc()" style="font-weight:700;">
+        <div style="font-size:0.72rem;color:var(--text-light);margin-top:4px;padding-left:4px;">€ / MWh</div>
+      </div>
+      <div style="display:flex;align-items:center;gap:6px;">
+        <div style="flex:1;">
+          <div id="preu-eur-t" style="font-size:1.1rem;font-weight:800;color:var(--green);text-align:center;padding:11px 0;background:var(--green-pale);border-radius:var(--radius-sm);">—</div>
+          <div style="font-size:0.72rem;color:var(--text-light);margin-top:4px;text-align:center;">€ / tona (H mitja)</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════ SECCIÓ 2 · HUMITAT ════════════ -->
+<div class="section">
+  <div class="section-title">💧 Humitat de l'Estella</div>
+
+  <div class="field">
+    <label>Humitat mitja <span class="label-hint">(rang facturable: 20%–45%)</span></label>
+    <div class="slider-wrap">
+      <input type="range" id="sl-humitat" min="15" max="55" step="1" value="30"
+             oninput="syncHumitat(this.value); recalc()">
+      <div class="slider-val" id="sv-humitat">30%</div>
+    </div>
+    <input type="number" id="s-humitat" value="30" min="15" max="55" step="0.5"
+           oninput="syncHumitatInput(this.value); recalc()"
+           style="margin-top:8px;font-size:0.95rem;">
+  </div>
+
+  <div class="humitat-avís" id="humitat-avis"></div>
+
+  <div class="sep"></div>
+  <div class="row-3">
+    <div class="result-card blue">
+      <div class="val" id="r-pci">—</div>
+      <div class="lbl">PCI kWh/t</div>
+    </div>
+    <div class="result-card">
+      <div class="val" id="r-pci-fact">—</div>
+      <div class="lbl">PCI factur.</div>
+    </div>
+    <div class="result-card green">
+      <div class="val" id="r-preu-fact">—</div>
+      <div class="lbl">€/t factur.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════ SECCIÓ 3 · COSTOS ════════════ -->
+<div class="section">
+  <div class="section-title">⚙️ Costos d'Operació</div>
+
+  <!-- Pila -->
+  <div class="field">
+    <label>Cost Pila (fusta a origen)</label>
+    <div class="row-2">
+      <div>
+        <input type="number" id="s-cost-pila" placeholder="ex: 28" step="0.5" min="0" oninput="recalc()">
+        <div style="font-size:0.72rem;color:var(--text-light);margin-top:4px;padding-left:4px;">€ / tona</div>
+      </div>
+      <div class="result-card blue" style="margin:0;">
+        <div class="val" id="r-cost-pila-mwh">—</div>
+        <div class="lbl">€ / MWh</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sep"></div>
+
+  <!-- Estelladora -->
+  <div class="row-2">
+    <div class="field">
+      <label>Estelladora</label>
+      <select id="s-estelladora" onchange="onEstelladoraChange()">
+        <option value="">— Selecciona —</option>
+        <option value="10">NOVALIA (10 €/t)</option>
+        <option value="15">ROJAS (15 €/t)</option>
+        <option value="15">AGROMET (15 €/t)</option>
+        <option value="15">ZEFFERINO (15 €/t)</option>
+        <option value="15">ALTRES (15 €/t)</option>
+      </select>
+    </div>
+    <div class="field">
+      <label>Cost Estellat <span class="label-hint">(editable)</span></label>
+      <input type="number" id="s-cost-est" placeholder="€/t" step="0.5" min="0" oninput="recalc()">
+    </div>
+  </div>
+  <div class="result-card blue" style="margin-bottom:12px;">
+    <div class="val" id="r-cost-est-mwh">—</div>
+    <div class="lbl">Cost estellat · € / MWh</div>
+  </div>
+
+  <div class="sep"></div>
+
+  <!-- Transport directe -->
+  <div class="field">
+    <label>Cost Transport Directe (bosc→client)</label>
+    <div class="row-2">
+      <div>
+        <input type="number" id="s-cost-transp" placeholder="ex: 15" step="0.5" min="0" value="15" oninput="recalc()">
+        <div style="font-size:0.72rem;color:var(--text-light);margin-top:4px;padding-left:4px;">€ / tona</div>
+      </div>
+      <div class="result-card blue" style="margin:0;">
+        <div class="val" id="r-cost-transp-mwh">—</div>
+        <div class="lbl">€ / MWh</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sep"></div>
+
+  <!-- Pati toggle -->
+  <div class="toggle-row">
+    <div>
+      <div class="toggle-label">📦 Inclou via Pati</div>
+      <div class="toggle-sub">Activar si part del subministrament passa per pati intermedi</div>
+    </div>
+    <label class="toggle">
+      <input type="checkbox" id="cb-pati" onchange="onPatiChange()">
+      <span class="toggle-slider"></span>
+    </label>
+  </div>
+
+  <div class="pati-box" id="pati-box">
+    <div class="row-3">
+      <div class="field">
+        <label>Transp. Bosc→Pati</label>
+        <input type="number" id="s-transp-pati1" value="15" step="0.5" min="0" oninput="recalc()">
+        <div style="font-size:0.68rem;color:var(--green);margin-top:3px;">€/t</div>
+      </div>
+      <div class="field">
+        <label>Manip. + Càrrega</label>
+        <input type="number" id="s-manip-pati" value="5" step="0.5" min="0" oninput="recalc()">
+        <div style="font-size:0.68rem;color:var(--green);margin-top:3px;">€/t</div>
+      </div>
+      <div class="field">
+        <label>Transp. Pati→Client</label>
+        <input type="number" id="s-transp-pati2" value="15" step="0.5" min="0" oninput="recalc()">
+        <div style="font-size:0.68rem;color:var(--green);margin-top:3px;">€/t</div>
+      </div>
+    </div>
+    <div class="result-card orange" style="margin-top:4px;">
+      <div class="val" id="r-cost-pati-total">— €/t · — €/MWh</div>
+      <div class="lbl">Cost logístic total via pati</div>
+    </div>
+  </div>
+
+  <div class="sep"></div>
+
+  <!-- Mix logístic -->
+  <div class="field">
+    <label>% Via Directa <span class="label-hint">(via pati = el complement)</span></label>
+    <div class="slider-wrap">
+      <input type="range" id="sl-directa" min="0" max="100" step="5" value="100"
+             oninput="syncDirecta(this.value); recalc()">
+      <div class="slider-val green" id="sv-directa">100%</div>
+    </div>
+    <div class="row-2" style="margin-top:8px; gap:8px;">
+      <div>
+        <input type="number" id="s-pct-directa" value="100" min="0" max="100" step="5"
+               oninput="syncDirectaInput(this.value); recalc()">
+        <div style="font-size:0.72rem;color:var(--green);margin-top:3px;padding-left:4px;">% Directe 🟢</div>
+      </div>
+      <div>
+        <input type="number" id="s-pct-pati" value="0" min="0" max="100" step="5"
+               readonly style="background:var(--blue-pale);color:var(--blue);font-weight:700;">
+        <div style="font-size:0.72rem;color:var(--blue);margin-top:3px;padding-left:4px;">% Via Pati 🔵</div>
+      </div>
+    </div>
+    <div class="mix-bar-wrap">
+      <div class="mix-bar">
+        <div class="mix-bar-dir" id="mix-bar-dir" style="width:100%"></div>
+        <div class="mix-bar-pati" id="mix-bar-pati"></div>
+      </div>
+      <div class="mix-labels">
+        <span class="dir" id="mix-lbl-dir">Directe 100%</span>
+        <span class="pati" id="mix-lbl-pati">Pati 0%</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════ SECCIÓ 4 · RESULTAT ════════════ -->
+<div class="section" id="section-resultat">
+  <div class="section-title">📊 Resultat de la Simulació</div>
+
+  <!-- Marge hero -->
+  <div class="marge-hero positiu" id="marge-hero">
+    <div class="marge-label">Marge Brut</div>
+    <div class="marge-val" id="hero-mwh">— €/MWh</div>
+    <div class="marge-sub" id="hero-sub">— €/t · —% sobre preu</div>
+  </div>
+
+  <!-- Grid KPIs -->
+  <div class="result-grid">
+    <div class="result-card green">
+      <div class="val" id="r-preu-mwh-out">—</div>
+      <div class="lbl">Preu venda €/MWh</div>
+    </div>
+    <div class="result-card red">
+      <div class="val" id="r-cost-total-mwh">—</div>
+      <div class="lbl">Cost total €/MWh</div>
+    </div>
+    <div class="result-card green">
+      <div class="val" id="r-preu-t-out">—</div>
+      <div class="lbl">Preu venda €/t</div>
+    </div>
+    <div class="result-card red">
+      <div class="val" id="r-cost-total-t">—</div>
+      <div class="lbl">Cost total €/t</div>
+    </div>
+  </div>
+
+  <!-- Desglos de costos -->
+  <div style="margin-top:4px;">
+    <div style="font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--text-light);margin-bottom:8px;">Desglos · €/MWh</div>
+
+    <div class="desglos-row preu-row">
+      <span class="name">💰 Preu de venda</span>
+      <span class="amount" id="d-preu">— €/MWh</span>
+    </div>
+    <div class="desglos-row">
+      <span class="name">🪵 Cost fusta (pila)</span>
+      <span class="amount" id="d-pila">— €/MWh</span>
+    </div>
+    <div class="desglos-row">
+      <span class="name">⚙️ Cost estellat</span>
+      <span class="amount" id="d-est">— €/MWh</span>
+    </div>
+    <div class="desglos-row">
+      <span class="name">🚛 Cost logístic (ponderat)</span>
+      <span class="amount" id="d-log">— €/MWh</span>
+    </div>
+    <div class="desglos-row" id="d-pati-row" style="display:none;">
+      <span class="name" style="padding-left:12px;">↳ Via directa</span>
+      <span class="amount" id="d-log-dir">— €/MWh</span>
+    </div>
+    <div class="desglos-row" id="d-pati2-row" style="display:none;">
+      <span class="name" style="padding-left:12px;">↳ Via pati</span>
+      <span class="amount" id="d-log-pati">— €/MWh</span>
+    </div>
+    <div class="desglos-row total-row">
+      <span class="name">🔴 COST TOTAL</span>
+      <span class="amount" id="d-total">— €/MWh</span>
+    </div>
+  </div>
+
+  <!-- Info peu -->
+  <div style="margin-top:12px;padding:10px;background:var(--grey-light);border-radius:var(--radius-sm);font-size:0.75rem;color:var(--text-light);line-height:1.5;">
+    ℹ️ PCI calculat per fórmula PCnar: <strong>5291 − 5970 × H</strong> kWh/t ·
+    Rang facturable H: 20%–45% · Costos en €/MWh a partir de la humitat mitja introduïda
+  </div>
+</div>
+
+<div style="height:16px;"></div>
+
+<!-- BOTTOM NAV -->
+<div class="bottom-nav">
+  <a class="nav-btn" href="index.html">
+    <span class="icon">📋</span>Moviments
+  </a>
+  <div class="nav-btn active">
+    <span class="icon">🧮</span>Simulador
+  </div>
+</div>
+
+<script>
+// ══════════════════════════════════════════════════
+// CONSTANTS (del full 0. Paràmetres)
+// ══════════════════════════════════════════════════
+const PCnd    = 5291;    // kWh/t a humitat 0%
+const SLOPE   = 5970;    // reducció kWh/t per unitat de H (derivat de taula Excel)
+const H_MAX_FACT = 0.20; // màxim facturable (cap. alt)
+const H_MIN_FACT = 0.45; // mínim facturable (cap. baix)
+
+// Preus per client
+const PREUS_CLIENT = {
+  'ROFEICA': 21.5, 'SPT': 21.0, 'LIPSA': 25.0, 'TSB': 21.5,
+  'CROMOGENIA': 25.0, 'NUFRI': 25.0, 'INDULLEIDA': 25.0
+};
+
+// ══════════════════════════════════════════════════
+// FUNCIONS BASE
+// ══════════════════════════════════════════════════
+function calcPCI(H) {
+  return Math.max(0, PCnd - SLOPE * H);
+}
+
+function humitatFacturable(H) {
+  if (H < H_MAX_FACT) return H_MAX_FACT;
+  if (H > H_MIN_FACT) return H_MIN_FACT;
+  return H;
+}
+
+function fmt(n, dec = 2) {
+  if (n === null || isNaN(n)) return '—';
+  return n.toLocaleString('ca-ES', { minimumFractionDigits: dec, maximumFractionDigits: dec });
+}
+
+function fmtMWh(n) { return fmt(n, 2) + ' €/MWh'; }
+function fmtT(n)   { return fmt(n, 1) + ' €/t'; }
+
+// ══════════════════════════════════════════════════
+// SYNC SLIDERS ↔ INPUTS
+// ══════════════════════════════════════════════════
+function syncHumitat(v) {
+  document.getElementById('sv-humitat').textContent = v + '%';
+  document.getElementById('s-humitat').value = v;
+}
+function syncHumitatInput(v) {
+  const clamped = Math.min(55, Math.max(15, parseFloat(v) || 30));
+  document.getElementById('sl-humitat').value = clamped;
+  document.getElementById('sv-humitat').textContent = clamped + '%';
+}
+function syncDirecta(v) {
+  document.getElementById('sv-directa').textContent = v + '%';
+  document.getElementById('s-pct-directa').value = v;
+  document.getElementById('s-pct-pati').value = 100 - v;
+  updateMixBar(v);
+}
+function syncDirectaInput(v) {
+  const clamped = Math.min(100, Math.max(0, parseInt(v) || 0));
+  document.getElementById('sl-directa').value = clamped;
+  document.getElementById('sv-directa').textContent = clamped + '%';
+  document.getElementById('s-pct-pati').value = 100 - clamped;
+  updateMixBar(clamped);
+}
+function updateMixBar(pDir) {
+  document.getElementById('mix-bar-dir').style.width = pDir + '%';
+  document.getElementById('mix-lbl-dir').textContent = 'Directe ' + pDir + '%';
+  document.getElementById('mix-lbl-pati').textContent = 'Pati ' + (100 - pDir) + '%';
+}
+
+// ══════════════════════════════════════════════════
+// EVENT HANDLERS
+// ══════════════════════════════════════════════════
+function onDestiChange() {
+  const sel = document.getElementById('s-desti');
+  const opt = sel.options[sel.selectedIndex];
+  const preu = opt.getAttribute('data-preu');
+  if (preu) document.getElementById('s-preu-mwh').value = preu;
+  recalc();
+}
+
+function onEstelladoraChange() {
+  const sel = document.getElementById('s-estelladora');
+  const cost = sel.value;
+  if (cost) document.getElementById('s-cost-est').value = cost;
+  recalc();
+}
+
+function onPatiChange() {
+  const checked = document.getElementById('cb-pati').checked;
+  document.getElementById('pati-box').classList.toggle('show', checked);
+  // If no pati, force directa = 100%
+  if (!checked) {
+    syncDirecta(100);
+    document.getElementById('sl-directa').value = 100;
+  }
+  const mixSection = document.getElementById('sl-directa').closest('.field');
+  mixSection.style.opacity = checked ? '1' : '0.5';
+  document.getElementById('sl-directa').disabled = !checked;
+  document.getElementById('s-pct-directa').readOnly = !checked;
+  recalc();
+}
+
+// ══════════════════════════════════════════════════
+// CÀLCUL PRINCIPAL
+// ══════════════════════════════════════════════════
+function recalc() {
+  const H       = (parseFloat(document.getElementById('s-humitat').value) || 30) / 100;
+  const preuMWh = parseFloat(document.getElementById('s-preu-mwh').value) || 0;
+  const cPila   = parseFloat(document.getElementById('s-cost-pila').value) || 0;
+  const cEst    = parseFloat(document.getElementById('s-cost-est').value) || 0;
+  const cTransp = parseFloat(document.getElementById('s-cost-transp').value) || 0;
+  const pDir    = (parseFloat(document.getElementById('s-pct-directa').value) || 100) / 100;
+  const pPati   = 1 - pDir;
+  const ambPati = document.getElementById('cb-pati').checked;
+
+  // PCI
+  const PCI = calcPCI(H);
+  const PCI_kWh_per_t_div1000 = PCI / 1000; // MWh/t
+
+  // Humitat facturable
+  const H_fact = humitatFacturable(H);
+  const PCI_fact = calcPCI(H_fact);
+
+  // Avís humitat
+  const avis = document.getElementById('humitat-avis');
+  if (H < H_MAX_FACT) {
+    avis.textContent = `⚠️ Humitat ${(H*100).toFixed(1)}% < 20%: es facturarà com si fos H=20% (PCI màxim facturable)`;
+    avis.classList.add('show');
+  } else if (H > H_MIN_FACT) {
+    avis.textContent = `⚠️ Humitat ${(H*100).toFixed(1)}% > 45%: es facturarà com si fos H=45% (PCI mínim facturable)`;
+    avis.classList.add('show');
+  } else {
+    avis.classList.remove('show');
+  }
+
+  // Preu facturable €/t
+  const preuFactT = preuMWh * PCI_fact / 1000;
+  const preuMitjaT = preuMWh * PCI / 1000;
+
+  // Costos en €/MWh (convertits via PCI a humitat mitja)
+  const toMWh = (eur_t) => PCI_kWh_per_t_div1000 > 0 ? eur_t / PCI_kWh_per_t_div1000 : 0;
+
+  const cPilaMWh  = toMWh(cPila);
+  const cEstMWh   = toMWh(cEst);
+  const cTranspMWh = toMWh(cTransp);
+
+  // Logística via pati
+  const cTP1   = parseFloat(document.getElementById('s-transp-pati1').value) || 0;
+  const cManip = parseFloat(document.getElementById('s-manip-pati').value) || 0;
+  const cTP2   = parseFloat(document.getElementById('s-transp-pati2').value) || 0;
+  const cPatiTotalT   = cTP1 + cManip + cTP2;
+  const cPatiTotalMWh = toMWh(cPatiTotalT);
+
+  // Logística ponderada
+  let cLogDir, cLogPati, cLogPonderat;
+  if (ambPati) {
+    cLogDir      = cTranspMWh;
+    cLogPati     = cPatiTotalMWh;
+    cLogPonderat = pDir * cLogDir + pPati * cLogPati;
+  } else {
+    cLogDir      = cTranspMWh;
+    cLogPati     = 0;
+    cLogPonderat = cTranspMWh;
+  }
+
+  // Cost total
+  const cTotalMWh = cPilaMWh + cEstMWh + cLogPonderat;
+  const cTotalT   = cPila + cEst + (pDir * cTransp + pPati * cPatiTotalT);
+
+  // Marge
+  const margeMWh = preuMWh > 0 ? preuMWh - cTotalMWh : null;
+  const margeT   = preuMWh > 0 ? preuMitjaT - cTotalT : null;
+  const margePct = preuMWh > 0 && margeMWh !== null ? margeMWh / preuMWh : null;
+
+  // ── Actualitza pantalla ──────────────────────
+  set('r-pci',       fmt(PCI, 0));
+  set('r-pci-fact',  fmt(PCI_fact, 0));
+  set('r-preu-fact', fmt(preuFactT, 1) + (preuMWh > 0 ? '€' : ''));
+  set('preu-eur-t',  preuMWh > 0 ? fmt(preuMitjaT, 1) + ' €' : '—');
+
+  set('r-cost-pila-mwh',  fmt(cPilaMWh, 2));
+  set('r-cost-est-mwh',   fmt(cEstMWh, 2));
+  set('r-cost-transp-mwh', fmt(cTranspMWh, 2));
+  set('r-cost-pati-total', fmt(cPatiTotalT, 1) + ' €/t · ' + fmt(cPatiTotalMWh, 2) + ' €/MWh');
+
+  // Resultat
+  set('r-preu-mwh-out', fmt(preuMWh, 2));
+  set('r-cost-total-mwh', fmt(cTotalMWh, 2));
+  set('r-preu-t-out', fmt(preuMitjaT, 1));
+  set('r-cost-total-t', fmt(cTotalT, 1));
+
+  // Desglos
+  set('d-preu', fmtMWh(preuMWh));
+  set('d-pila', fmtMWh(cPilaMWh));
+  set('d-est',  fmtMWh(cEstMWh));
+  set('d-log',  fmtMWh(cLogPonderat));
+  set('d-log-dir',  fmtMWh(cLogDir));
+  set('d-log-pati', fmtMWh(cLogPati));
+  set('d-total', fmtMWh(cTotalMWh));
+
+  const showPatiRows = ambPati && pPati > 0;
+  document.getElementById('d-pati-row').style.display  = showPatiRows ? 'flex' : 'none';
+  document.getElementById('d-pati2-row').style.display = showPatiRows ? 'flex' : 'none';
+
+  // Marge hero
+  if (margeMWh !== null) {
+    set('hero-mwh', fmt(margeMWh, 2) + ' €/MWh');
+    set('hero-sub', fmt(margeT, 1) + ' €/t · ' + fmt(margePct * 100, 1) + '% s/ preu');
+    const hero = document.getElementById('marge-hero');
+    if (margeMWh >= 3)      hero.className = 'marge-hero positiu';
+    else if (margeMWh >= 0) hero.className = 'marge-hero baix';
+    else                    hero.className = 'marge-hero negatiu';
+  } else {
+    set('hero-mwh', 'Introdueix preu de venda');
+    set('hero-sub', '');
+  }
+}
+
+function set(id, val) {
+  const el = document.getElementById(id);
+  if (el) el.textContent = val;
+}
+
+// ── Init ─────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', () => {
+  // Desactiva mix mentre no hi ha pati
+  document.getElementById('sl-directa').disabled = true;
+  document.getElementById('s-pct-directa').readOnly = true;
+  document.getElementById('sl-directa').closest('.field').style.opacity = '0.5';
+  recalc();
+});
+</script>
+</body>
+</html>
