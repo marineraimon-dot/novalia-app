@@ -413,7 +413,7 @@
       </div>
     </div>
   </div>
-  <div class="header-badge" id="header-mes">ABR 2026</div>
+  <div class="header-badge" id="header-mes">MAIG 2026</div>
 </header>
 
 <div class="tabs">
@@ -457,28 +457,40 @@
       <div class="field">
         <label>Pila / Origen <span class="req">*</span></label>
         <select id="f-origen">
-          <option value="">— Selecciona —</option>
-          <option value="AMISOL">AMISOL</option>
-          <option value="ARTÈS">ARTÈS</option>
-          <option value="BUSA">BUSA</option>
-          <option value="FONTANALS">FONTANALS</option>
-          <option value="Just-Calders">Just-Calders</option>
-          <option value="LLOBERA">LLOBERA</option>
-          <option value="MADRONA">MADRONA</option>
-          <option value="MOIÀ 1">MOIÀ 1</option>
-          <option value="MOIÀ 2">MOIÀ 2</option>
-          <option value="PATI ALAMÚS">PATI ALAMÚS</option>
-          <option value="PATI BOSCAT">PATI BOSCAT</option>
-          <option value="PATI NOVALIA">PATI NOVALIA</option>
-          <option value="PEATGE AP7">PEATGE AP7</option>
-          <option value="PETROMIRALLES">PETROMIRALLES</option>
-          <option value="PORT DEL COMTE">PORT DEL COMTE</option>
-          <option value="Pati Cassi">Pati Cassi</option>
-          <option value="SANT BARTOMEU DEL GRAU">SANT BARTOMEU DEL GRAU</option>
-          <option value="SANT JOAN DE L'ERM">SANT JOAN DE L'ERM</option>
-          <option value="VIDRÀ">VIDRÀ</option>
-          <option value="VILAFRANCA DEL PENEDÈS">VILAFRANCA DEL PENEDÈS</option>
-          <option value="__altre__">+ Altre (escriu)</option>
+          <option value="">— Selecciona pila —</option>
+          <option>MOIÀ 1</option>
+          <option>MOIÀ 2</option>
+          <option>ARTÈS</option>
+          <option>SANT BARTOMEU DEL GRAU</option>
+          <option>SANT JOAN DE L'ERM</option>
+          <option>PORT DEL COMTE</option>
+          <option>LLOBERA</option>
+          <option>L'ORDAL</option>
+          <option>CAN CANALS</option>
+          <option>PATI ALAMÚS</option>
+          <option>PATI BOSCAT</option>
+          <option>SERRADORA EL PLA</option>
+          <option>PATI NOVALIA</option>
+          <option>CLAPERS</option>
+          <option>RIVES BLAVES</option>
+          <option>INCENDI SPS</option>
+          <option>EL BRUC</option>
+          <option>SEAT</option>
+          <option>CAN MARC</option>
+          <option>CASA BELTRANET</option>
+          <option>CASTILLEJOS</option>
+          <option>PEATGE S.CELONI</option>
+          <option>PATI CASSI</option>
+          <option>L'AMETLLA</option>
+          <option>CALLDETENES</option>
+          <option>PREMIÀ</option>
+          <option>RASOS</option>
+          <option>CAN MATA</option>
+          <option>CALDERS</option>
+          <option>AMISOL</option>
+          <option>PATI CARDONA</option>
+          <option>CAN FONTANELLES</option>
+          <option value="__altre__">Altre...</option>
         </select>
         <input type="text" id="f-origen-alt" placeholder="Nom de la pila / origen" style="display:none;margin-top:8px;">
       </div>
@@ -486,50 +498,68 @@
         <div class="field">
           <label>Municipi origen</label>
           <select id="f-municipi">
-          <option value="">— Selecciona —</option>
-          <option value="Artès">Artès</option>
-          <option value="Calders">Calders</option>
-          <option value="Fontanals de Cerdanya">Fontanals de Cerdanya</option>
-          <option value="La Coma i la Pedra">La Coma i la Pedra</option>
-          <option value="Llobera">Llobera</option>
-          <option value="Miralles">Miralles</option>
-          <option value="Moià">Moià</option>
-          <option value="S.Bartomeu del Grau">S.Bartomeu del Grau</option>
-          <option value="Sant Celoni">Sant Celoni</option>
-          <option value="Sant Joan de l'Erm">Sant Joan de l'Erm</option>
-          <option value="Vidrà">Vidrà</option>
-          <option value="Vilafranca del Penedès">Vilafranca del Penedès</option>
-          <option value="__altre__">+ Altre (escriu)</option>
-        </select>
+            <option value="">— Municipi —</option>
+            <option>Abrera</option>
+            <option>Arbolí</option>
+            <option>Artès</option>
+            <option>Calders</option>
+            <option>Calldetenes</option>
+            <option>Cardona</option>
+            <option>Castellfollit del Boix</option>
+            <option>Corbera de Llobregat</option>
+            <option>El Bruc</option>
+            <option>El Pla de Santa Maria</option>
+            <option>Els Alamús</option>
+            <option>Hostalets de Pierola</option>
+            <option>L'Ametlla del Vallès</option>
+            <option>La Coma i la Pedra</option>
+            <option>La Pobla de Claramunt</option>
+            <option>Llobera</option>
+            <option>Moià</option>
+            <option>Olèrdola</option>
+            <option>Premià de Mar</option>
+            <option>Rajadell</option>
+            <option>Rasos de Peguera</option>
+            <option>Sant Bartomeu del Grau</option>
+            <option>Sant Celoni</option>
+            <option>Sant Joan de l'Erm</option>
+            <option>Sant Pere Sallavinera</option>
+            <option>Santa Maria d'Oló</option>
+            <option>Solsona</option>
+            <option>Subirats</option>
+            <option>Viladecavalls</option>
+            <option value="__altre__">Altre...</option>
+          </select>
           <input type="text" id="f-municipi-alt" placeholder="Municipi" style="display:none;margin-top:8px;">
         </div>
         <div class="field">
           <label>Finca / Parcel·la</label>
           <select id="f-finca">
-          <option value="">— Selecciona —</option>
-          <option value="AUTOPISTA">AUTOPISTA</option>
-          <option value="Abocador Can Mata">Abocador Can Mata</option>
-          <option value="Abocador/Fàbrica">Abocador/Fàbrica</option>
-          <option value="BOIXADORS">BOIXADORS</option>
-          <option value="CAN CANALS">CAN CANALS</option>
-          <option value="CAN MARC">CAN MARC</option>
-          <option value="CAN SOLÀ">CAN SOLÀ</option>
-          <option value="CARRETERA">CARRETERA</option>
-          <option value="CASA BELTRANET">CASA BELTRANET</option>
-          <option value="CASTILLEJOS">CASTILLEJOS</option>
-          <option value="CLAPERS">CLAPERS</option>
-          <option value="Can Rovira">Can Rovira</option>
-          <option value="Just Serra">Just Serra</option>
-          <option value="PARÈS">PARÈS</option>
-          <option value="PATI SERRADORA">PATI SERRADORA</option>
-          <option value="PISTES">PISTES</option>
-          <option value="Pati Presegué">Pati Presegué</option>
-          <option value="Pati germans Cassi">Pati germans Cassi</option>
-          <option value="Peatge antic AP7">Peatge antic AP7</option>
-          <option value="RIVES BLAVES">RIVES BLAVES</option>
-          <option value="VILAMORÓS">VILAMORÓS</option>
-          <option value="__altre__">+ Altre (escriu)</option>
-        </select>
+            <option value="">— Finca —</option>
+            <option>Abocador Can Mata</option>
+            <option>Abocador/Fàbrica</option>
+            <option>AUTOPISTA</option>
+            <option>BOIXADORS</option>
+            <option>CAN CANALS</option>
+            <option>CAN FONTANELLES</option>
+            <option>CAN MARC</option>
+            <option>CAN SOLÀ</option>
+            <option>CASA BELTRANET</option>
+            <option>CASTILLEJOS</option>
+            <option>Carretera</option>
+            <option>CLAPERS</option>
+            <option>Can Rovira</option>
+            <option>Just Serra</option>
+            <option>PARÈS</option>
+            <option>Pati Presegué</option>
+            <option>Pati germans Cassi</option>
+            <option>PATI SERRADORA</option>
+            <option>Peatge antic AP7</option>
+            <option>PISTES</option>
+            <option>RIVES BLAVES</option>
+            <option>VILAMORÓS</option>
+            <option value="__altre__">Altre...</option>
+          </select>
           <input type="text" id="f-finca-alt" placeholder="Nom finca" style="display:none;margin-top:8px;">
         </div>
       </div>
@@ -537,19 +567,21 @@
         <label>Proveïdor</label>
         <select id="f-proveidor">
           <option value="">— Selecciona —</option>
-          <option value="BAUTISTA">BAUTISTA</option>
-          <option value="BOIX">BOIX</option>
-          <option value="BOSCAT FUSTA">BOSCAT FUSTA</option>
-          <option value="EXFOCAT">EXFOCAT</option>
-          <option value="FAMADAS/CASSI">FAMADAS/CASSI</option>
-          <option value="FAMADAS/LLENÇ">FAMADAS/LLENÇ</option>
-          <option value="FUSTES JANÉ">FUSTES JANÉ</option>
-          <option value="GRIGORE">GRIGORE</option>
-          <option value="NOVALIA">NOVALIA</option>
-          <option value="PRESEGUÉ">PRESEGUÉ</option>
-          <option value="SERFOCAT">SERFOCAT</option>
-          <option value="SOLÀ">SOLÀ</option>
-          <option value="__altre__">+ Altre (escriu)</option>
+          <option>AMISOL</option>
+          <option>BAUTISTA</option>
+          <option>BOIX</option>
+          <option>BOSCAT FUSTA</option>
+          <option>EXFOCAT</option>
+          <option>FAMADAS/CASSI</option>
+          <option>FAMADAS/LLENÇ</option>
+          <option>FUSTES JANÉ</option>
+          <option>GRIGORE</option>
+          <option>NOVALIA</option>
+          <option>PRESEGUÉ</option>
+          <option>SERFOCAT</option>
+          <option>SOLÀ</option>
+          <option>ALTRES</option>
+          <option value="__altre__">Altre...</option>
         </select>
         <input type="text" id="f-proveidor-alt" placeholder="Nom del proveïdor" style="display:none;margin-top:8px;">
       </div>
@@ -580,12 +612,14 @@
         <label>Transportista</label>
         <select id="f-transportista">
           <option value="">— Selecciona —</option>
-          <option value="EXLAND">EXLAND</option>
-          <option value="PORQUERES">PORQUERES</option>
-          <option value="PUIGGENÉ">PUIGGENÉ</option>
-          <option value="ROJAS">ROJAS</option>
-          <option value="VILAPRAT">VILAPRAT</option>
-          <option value="__altre__">+ Altre (escriu)</option>
+          <option>VILAPRAT</option>
+          <option>EXLAND</option>
+          <option>ROJAS</option>
+          <option>PORQUERES</option>
+          <option>AGROMET</option>
+          <option>PUIGGENÉ</option>
+          <option>NUFRI</option>
+          <option value="__altre__">Altre...</option>
         </select>
         <input type="text" id="f-transportista-alt" placeholder="Nom transportista" style="display:none;margin-top:8px;">
       </div>
@@ -620,6 +654,7 @@
             <option>ROJAS</option>
             <option>AGROMET</option>
             <option>ZEFFERINO</option>
+            <option>NUFRI</option>
             <option>ALTRES</option>
           </select>
         </div>
@@ -680,7 +715,7 @@
 <div class="panel" id="panel-exportar">
   <div class="export-section">
     <h3>📊 Exportar a CSV</h3>
-    <p>Descarrega tots els moviments en format CSV. Pots obrir-lo directament a Excel o importar-lo al fitxer Novalia_Abril2026.xlsx.</p>
+    <p>Descarrega tots els moviments en format CSV. Pots obrir-lo directament a Excel o importar-lo al fitxer Novalia_Maig2026.xlsx.</p>
     <button class="btn btn-export" onclick="exportCSV()">
       <span>⬇️</span> Descarregar CSV
     </button>
@@ -728,7 +763,7 @@
 // ============================================================
 // DATA STORE
 // ============================================================
-const STORAGE_KEY = 'novalia_moviments_abr26';
+const STORAGE_KEY = 'novalia_moviments_maig26';
 
 function getMoviments() {
   try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); }
@@ -1064,7 +1099,11 @@ function editMoviment(id) {
       <div class="field"><label>Estelladora</label><select id="e-estelladora">
         <option value="">—</option>
         <option${m.estelladora==='NOVALIA'?' selected':''}>NOVALIA</option>
-        <option${m.estelladora==='Externa'?' selected':''}>Externa</option>
+        <option${m.estelladora==='ROJAS'?' selected':''}>ROJAS</option>
+        <option${m.estelladora==='AGROMET'?' selected':''}>AGROMET</option>
+        <option${m.estelladora==='ZEFFERINO'?' selected':''}>ZEFFERINO</option>
+        <option${m.estelladora==='NUFRI'?' selected':''}>NUFRI</option>
+        <option${m.estelladora==='ALTRES'?' selected':''}>ALTRES</option>
       </select></div>
     </div>
     <div class="row-2">
@@ -1144,7 +1183,7 @@ function exportCSV() {
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url;
-  a.download = `Novalia_Moviments_Abr2026_${new Date().toISOString().split('T')[0]}.csv`;
+  a.download = `Novalia_Moviments_Maig2026_${new Date().toISOString().split('T')[0]}.csv`;
   document.body.appendChild(a);
   a.click();
   document.body.removeChild(a);

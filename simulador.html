@@ -271,17 +271,18 @@ select {
       <label>Proveïdor</label>
       <select id="s-proveidor" onchange="recalc()">
         <option value="">— Selecciona —</option>
-        <option>PRESEGUÉ</option>
+        <option>AMISOL</option>
         <option>BAUTISTA</option>
+        <option>BOIX</option>
         <option>BOSCAT FUSTA</option>
         <option>EXFOCAT</option>
         <option>FAMADAS/CASSI</option>
         <option>FAMADAS/LLENÇ</option>
         <option>FUSTES JANÉ</option>
         <option>GRIGORE</option>
+        <option>PRESEGUÉ</option>
         <option>SERFOCAT</option>
         <option>SOLÀ</option>
-        <option>BOIX</option>
         <option>ALTRES</option>
       </select>
     </div>
@@ -386,6 +387,7 @@ select {
         <option value="15">ROJAS (15 €/t)</option>
         <option value="15">AGROMET (15 €/t)</option>
         <option value="15">ZEFFERINO (15 €/t)</option>
+        <option value="15">NUFRI (15 €/t)</option>
         <option value="15">ALTRES (15 €/t)</option>
       </select>
     </div>
@@ -522,42 +524,87 @@ select {
 
   <!-- Desglos de costos -->
   <div style="margin-top:4px;">
-    <div style="font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--text-light);margin-bottom:8px;">Desglos · €/MWh</div>
+    <!-- Capçalera columnes -->
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+      <div style="font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--text-light);">Desglos</div>
+      <div style="display:flex;gap:6px;">
+        <div style="font-size:0.68rem;font-weight:700;color:var(--blue);background:var(--blue-pale);border-radius:8px;padding:2px 8px;">€/MWh</div>
+        <div style="font-size:0.68rem;font-weight:700;color:var(--green);background:var(--green-pale);border-radius:8px;padding:2px 8px;">€/t</div>
+      </div>
+    </div>
 
     <div class="desglos-row preu-row">
       <span class="name">💰 Preu de venda</span>
-      <span class="amount" id="d-preu">— €/MWh</span>
+      <span style="display:flex;gap:6px;align-items:center;">
+        <span class="amount" id="d-preu" style="color:var(--blue);min-width:70px;text-align:right;">—</span>
+        <span class="amount" id="d-preu-t" style="color:var(--green);min-width:62px;text-align:right;">—</span>
+      </span>
     </div>
     <div class="desglos-row">
       <span class="name">🪵 Cost fusta (pila)</span>
-      <span class="amount" id="d-pila">— €/MWh</span>
+      <span style="display:flex;gap:6px;align-items:center;">
+        <span class="amount" id="d-pila" style="color:var(--blue);min-width:70px;text-align:right;">—</span>
+        <span class="amount" id="d-pila-t" style="color:var(--text);min-width:62px;text-align:right;">—</span>
+      </span>
     </div>
     <div class="desglos-row">
       <span class="name">⚙️ Cost estellat</span>
-      <span class="amount" id="d-est">— €/MWh</span>
+      <span style="display:flex;gap:6px;align-items:center;">
+        <span class="amount" id="d-est" style="color:var(--blue);min-width:70px;text-align:right;">—</span>
+        <span class="amount" id="d-est-t" style="color:var(--text);min-width:62px;text-align:right;">—</span>
+      </span>
     </div>
     <div class="desglos-row">
       <span class="name">🚛 Cost logístic (ponderat)</span>
-      <span class="amount" id="d-log">— €/MWh</span>
+      <span style="display:flex;gap:6px;align-items:center;">
+        <span class="amount" id="d-log" style="color:var(--blue);min-width:70px;text-align:right;">—</span>
+        <span class="amount" id="d-log-t" style="color:var(--text);min-width:62px;text-align:right;">—</span>
+      </span>
     </div>
     <div class="desglos-row" id="d-pati-row" style="display:none;">
       <span class="name" style="padding-left:12px;">↳ Via directa</span>
-      <span class="amount" id="d-log-dir">— €/MWh</span>
+      <span style="display:flex;gap:6px;align-items:center;">
+        <span class="amount" id="d-log-dir" style="color:var(--blue);min-width:70px;text-align:right;">—</span>
+        <span class="amount" id="d-log-dir-t" style="color:var(--text);min-width:62px;text-align:right;">—</span>
+      </span>
     </div>
     <div class="desglos-row" id="d-pati2-row" style="display:none;">
       <span class="name" style="padding-left:12px;">↳ Via pati</span>
-      <span class="amount" id="d-log-pati">— €/MWh</span>
+      <span style="display:flex;gap:6px;align-items:center;">
+        <span class="amount" id="d-log-pati" style="color:var(--blue);min-width:70px;text-align:right;">—</span>
+        <span class="amount" id="d-log-pati-t" style="color:var(--text);min-width:62px;text-align:right;">—</span>
+      </span>
     </div>
     <div class="desglos-row total-row">
       <span class="name">🔴 COST TOTAL</span>
-      <span class="amount" id="d-total">— €/MWh</span>
+      <span style="display:flex;gap:6px;align-items:center;">
+        <span class="amount" id="d-total" style="color:var(--red);min-width:70px;text-align:right;">—</span>
+        <span class="amount" id="d-total-t" style="color:var(--red);min-width:62px;text-align:right;">—</span>
+      </span>
+    </div>
+
+    <!-- Marge final en les dues unitats -->
+    <div style="background:var(--green-pale);border-radius:var(--radius-sm);padding:10px 12px;margin-top:10px;">
+      <div style="font-size:0.68rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--green);margin-bottom:6px;">✅ Marge brut</div>
+      <div style="display:flex;justify-content:space-between;align-items:center;">
+        <span style="font-size:0.85rem;color:var(--text-light);">€ / MWh</span>
+        <span style="font-size:1.15rem;font-weight:800;color:var(--green);" id="d-marge-mwh">—</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-top:4px;">
+        <span style="font-size:0.85rem;color:var(--text-light);">€ / tona (H mitja)</span>
+        <span style="font-size:1.15rem;font-weight:800;color:var(--green);" id="d-marge-t">—</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-top:4px;">
+        <span style="font-size:0.85rem;color:var(--text-light);">% sobre preu</span>
+        <span style="font-size:1.15rem;font-weight:800;color:var(--green);" id="d-marge-pct">—</span>
+      </div>
     </div>
   </div>
 
   <!-- Info peu -->
   <div style="margin-top:12px;padding:10px;background:var(--grey-light);border-radius:var(--radius-sm);font-size:0.75rem;color:var(--text-light);line-height:1.5;">
     ℹ️ PCI calculat per fórmula PCnar: <strong>5291 − 5970 × H</strong> kWh/t ·
-    Rang facturable H: 20%–45% · Costos en €/MWh a partir de la humitat mitja introduïda
+    Rang facturable H: 20%–45% · Costos en €/t = inputs directes · €/MWh = convertit via PCI (H mitja)
   </div>
 </div>
 
@@ -745,31 +792,46 @@ function recalc() {
   const margeT   = preuMWh > 0 ? preuMitjaT - cTotalT : null;
   const margePct = preuMWh > 0 && margeMWh !== null ? margeMWh / preuMWh : null;
 
+  // Costos en €/t (directes, no convertits)
+  const cLogDirT   = cTransp;
+  const cLogPatiT  = cPatiTotalT;
+  const cLogPondT  = pDir * cLogDirT + pPati * cLogPatiT;
+
   // ── Actualitza pantalla ──────────────────────
   set('r-pci',       fmt(PCI, 0));
   set('r-pci-fact',  fmt(PCI_fact, 0));
-  set('r-preu-fact', fmt(preuFactT, 1) + (preuMWh > 0 ? '€' : ''));
+  set('r-preu-fact', fmt(preuFactT, 1) + (preuMWh > 0 ? ' €' : ''));
   set('preu-eur-t',  preuMWh > 0 ? fmt(preuMitjaT, 1) + ' €' : '—');
 
-  set('r-cost-pila-mwh',  fmt(cPilaMWh, 2));
-  set('r-cost-est-mwh',   fmt(cEstMWh, 2));
+  set('r-cost-pila-mwh',   fmt(cPilaMWh, 2));
+  set('r-cost-est-mwh',    fmt(cEstMWh, 2));
   set('r-cost-transp-mwh', fmt(cTranspMWh, 2));
-  set('r-cost-pati-total', fmt(cPatiTotalT, 1) + ' €/t · ' + fmt(cPatiTotalMWh, 2) + ' €/MWh');
+  set('r-cost-pati-total',  fmt(cPatiTotalT, 1) + ' €/t · ' + fmt(cPatiTotalMWh, 2) + ' €/MWh');
 
-  // Resultat
-  set('r-preu-mwh-out', fmt(preuMWh, 2));
+  // Resultat KPI grid
+  set('r-preu-mwh-out',   fmt(preuMWh, 2));
   set('r-cost-total-mwh', fmt(cTotalMWh, 2));
-  set('r-preu-t-out', fmt(preuMitjaT, 1));
-  set('r-cost-total-t', fmt(cTotalT, 1));
+  set('r-preu-t-out',     fmt(preuMitjaT, 1));
+  set('r-cost-total-t',   fmt(cTotalT, 1));
 
-  // Desglos
-  set('d-preu', fmtMWh(preuMWh));
-  set('d-pila', fmtMWh(cPilaMWh));
-  set('d-est',  fmtMWh(cEstMWh));
-  set('d-log',  fmtMWh(cLogPonderat));
-  set('d-log-dir',  fmtMWh(cLogDir));
-  set('d-log-pati', fmtMWh(cLogPati));
-  set('d-total', fmtMWh(cTotalMWh));
+  // Desglos €/MWh i €/t
+  set('d-preu',       fmt(preuMWh, 2));   set('d-preu-t',       fmt(preuMitjaT, 1));
+  set('d-pila',       fmt(cPilaMWh, 2));  set('d-pila-t',       fmt(cPila, 1));
+  set('d-est',        fmt(cEstMWh, 2));   set('d-est-t',        fmt(cEst, 1));
+  set('d-log',        fmt(cLogPonderat,2));set('d-log-t',        fmt(cLogPondT, 1));
+  set('d-log-dir',    fmt(cLogDir, 2));   set('d-log-dir-t',    fmt(cLogDirT, 1));
+  set('d-log-pati',   fmt(cLogPati, 2));  set('d-log-pati-t',   fmt(cLogPatiT, 1));
+  set('d-total',      fmt(cTotalMWh, 2)); set('d-total-t',      fmt(cTotalT, 1));
+
+  // Marge en desglos
+  if (margeMWh !== null) {
+    const margeColor = margeMWh >= 3 ? 'var(--green)' : margeMWh >= 0 ? 'var(--orange)' : 'var(--red)';
+    setColor('d-marge-mwh', fmt(margeMWh, 2) + ' €/MWh', margeColor);
+    setColor('d-marge-t',   fmt(margeT, 1)   + ' €/t',   margeColor);
+    setColor('d-marge-pct', fmt((margePct||0)*100, 1) + '%', margeColor);
+  } else {
+    set('d-marge-mwh', '—'); set('d-marge-t', '—'); set('d-marge-pct', '—');
+  }
 
   const showPatiRows = ambPati && pPati > 0;
   document.getElementById('d-pati-row').style.display  = showPatiRows ? 'flex' : 'none';
@@ -778,7 +840,7 @@ function recalc() {
   // Marge hero
   if (margeMWh !== null) {
     set('hero-mwh', fmt(margeMWh, 2) + ' €/MWh');
-    set('hero-sub', fmt(margeT, 1) + ' €/t · ' + fmt(margePct * 100, 1) + '% s/ preu');
+    set('hero-sub', fmt(margeT, 1) + ' €/t  ·  ' + fmt((margePct||0) * 100, 1) + '% s/ preu');
     const hero = document.getElementById('marge-hero');
     if (margeMWh >= 3)      hero.className = 'marge-hero positiu';
     else if (margeMWh >= 0) hero.className = 'marge-hero baix';
@@ -792,6 +854,10 @@ function recalc() {
 function set(id, val) {
   const el = document.getElementById(id);
   if (el) el.textContent = val;
+}
+function setColor(id, val, color) {
+  const el = document.getElementById(id);
+  if (el) { el.textContent = val; el.style.color = color; }
 }
 
 // ── Init ─────────────────────────────────────────
