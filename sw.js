@@ -1,7 +1,8 @@
-const CACHE = 'novalia-v2';
+const CACHE = 'novalia-v3';
 const ASSETS = [
   './',
   './index.html',
+  './simulador.html',
   './manifest.json',
   './icon.svg'
 ];
