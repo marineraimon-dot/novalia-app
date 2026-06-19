@@ -413,7 +413,7 @@
       </div>
     </div>
   </div>
-  <div class="header-badge" id="header-mes">MAIG 2026</div>
+  <div class="header-badge" id="header-mes">JUN 2026</div>
 </header>
 
 <div class="tabs">
@@ -452,148 +452,86 @@
       </div>
     </div>
 
-    <div class="form-section">
+        <div class="form-section">
       <div class="form-section-title">🌲 Origen</div>
       <div class="field">
-        <label>Pila / Origen <span class="req">*</span></label>
-        <select id="f-origen">
+        <label>Pila d'origen <span style="font-weight:400;color:var(--grey-mid);text-transform:none;">(autofill)</span></label>
+        <select id="f-pila" onchange="onPilaChange()">
           <option value="">— Selecciona pila —</option>
-          <option>MOIÀ 1</option>
-          <option>MOIÀ 2</option>
-          <option>ARTÈS</option>
-          <option>SANT BARTOMEU DEL GRAU</option>
-          <option>SANT JOAN DE L'ERM</option>
-          <option>PORT DEL COMTE</option>
-          <option>LLOBERA</option>
-          <option>L'ORDAL</option>
-          <option>CAN CANALS</option>
-          <option>PATI ALAMÚS</option>
-          <option>PATI BOSCAT</option>
-          <option>SERRADORA EL PLA</option>
-          <option>PATI NOVALIA</option>
-          <option>CLAPERS</option>
-          <option>RIVES BLAVES</option>
-          <option>INCENDI SPS</option>
-          <option>EL BRUC</option>
-          <option>SEAT</option>
-          <option>CAN MARC</option>
-          <option>CASA BELTRANET</option>
-          <option>CASTILLEJOS</option>
-          <option>PEATGE S.CELONI</option>
-          <option>PATI CASSI</option>
-          <option>L'AMETLLA</option>
-          <option>CALLDETENES</option>
-          <option>PREMIÀ</option>
-          <option>RASOS</option>
-          <option>CAN MATA</option>
-          <option>CALDERS</option>
-          <option>AMISOL</option>
-          <option>PATI CARDONA</option>
-          <option>CAN FONTANELLES</option>
-          <option>ALCOVER MAS DE LA FAM</option>
-          <option>ALBET I NOYA</option>
-          <option>CASES BLANQUES</option>
-          <option value="__altre__">Altre...</option>
+          <optgroup label="Actives">
+            <option value="MOIÀ 1|Moià|PARÈS|PRESEGUÉ|NOVALIA">MOIÀ 1 – PRESEGUÉ (50 t)</option>
+            <option value="MOIÀ 2|Moià|PARÈS|PRESEGUÉ|NOVALIA">MOIÀ 2 – PRESEGUÉ (600 t)</option>
+            <option value="L'ORDAL|Subirats|Can Rovira|SERFOCAT|NOVALIA">L'ORDAL – SERFOCAT (500 t)</option>
+            <option value="CAN CANALS|Corbera de Llobregat|CAN CANALS|BAUTISTA|NOVALIA">CAN CANALS – BAUTISTA (400 t)</option>
+            <option value="CLAPERS|Santa Maria d'Oló|CLAPERS|EXFOCAT|NOVALIA">CLAPERS – EXFOCAT (1.000 t)</option>
+            <option value="RIVES BLAVES|Viladecavalls|RIVES BLAVES|BOSCAT FUSTA|NOVALIA">RIVES BLAVES – BOSCAT FUSTA (200 t)</option>
+            <option value="INCENDI SPS|Sant Pere Sallavinera|BOIXADORS|BOSCAT FUSTA|NOVALIA">INCENDI SPS – BOSCAT FUSTA (3.000 t)</option>
+            <option value="EL BRUC|El Bruc|CAN SOLÀ|BOSCAT FUSTA|NOVALIA">EL BRUC – BOSCAT FUSTA (150 t)</option>
+            <option value="SEAT|Abrera|AUTOPISTA|FAMADAS/LLENÇ|NOVALIA">SEAT – FAMADAS/LLENÇ (90 t)</option>
+            <option value="CAN MARC|Olèrdola|CAN MARC|EXFOCAT|NOVALIA">CAN MARC – EXFOCAT (500 t)</option>
+            <option value="CASA BELTRANET|Olèrdola|CASA BELTRANET|EXFOCAT|NOVALIA">CASA BELTRANET – EXFOCAT (500 t)</option>
+            <option value="CASTILLEJOS|Arbolí|CASTILLEJOS|GRIGORE|NOVALIA">CASTILLEJOS – GRIGORE (1.000 t)</option>
+            <option value="PEATGE S.CELONI|Sant Celoni|Peatge AP7|FAMADAS/LLENÇ|AGROMET">PEATGE S.CELONI – FAMADAS/LLENÇ (200 t)</option>
+            <option value="PATI CASSI|Sant Celoni|Pati Cassi|FAMADAS/CASSI|AGROMET">PATI CASSI – FAMADAS/CASSI (190 t)</option>
+            <option value="L'AMETLLA|L'Ametlla del Vallès|Pati Presegué|PRESEGUÉ|NOVALIA">L'AMETLLA – PRESEGUÉ (250 t)</option>
+            <option value="CALLDETENES|Calldetenes|Pati Presegué|PRESEGUÉ|NOVALIA">CALLDETENES – PRESEGUÉ (250 t)</option>
+            <option value="PREMIÀ|Premià de Mar||BAUTISTA|NOVALIA">PREMIÀ – BAUTISTA (120 t)</option>
+            <option value="RASOS|Rasos de Peguera||BAUTISTA|NOVALIA">RASOS – BAUTISTA (60 t)</option>
+            <option value="CAN MATA|Hostalets de Pierola|Abocador Can Mata|BAUTISTA|NOVALIA">CAN MATA – BAUTISTA (500 t)</option>
+            <option value="CALDERS|Calders|JUST SERRA|BOSCAT FUSTA|">CALDERS – BOSCAT FUSTA (500 t)</option>
+            <option value="CAN FONTANELLES|Castellfollit del Boix|CAN FONTANELLES|BOSCAT FUSTA|">CAN FONTANELLES – BOSCAT FUSTA (250 t)</option>
+            <option value="ALCOVER MAS DE LA FAM|Alcover|MAS DE LA FAM|BOSCAT FUSTA|ROJAS">ALCOVER MAS DE LA FAM – BOSCAT FUSTA</option>
+            <option value="ALBET I NOYA|Subirats|ALBET I NOYA|RANUSH|NOVALIA">ALBET I NOYA – RANUSH (500 t)</option>
+            <option value="CASES BLANQUES|Olèrdola|CASES BLANQUES|RANUSH|NOVALIA">CASES BLANQUES – RANUSH (60 t)</option>
+            <option value="LES COLOMINES|Santa Maria de Miralles|COLOMINES|ZARACHO|NOVALIA">LES COLOMINES – ZARACHO (1.000 t)</option>
+          </optgroup>
+          <optgroup label="En curs / Patis">
+            <option value="PATI BOSCAT|Rajadell||BOSCAT FUSTA|">PATI BOSCAT – Rajadell</option>
+            <option value="SERRADORA EL PLA|El Pla de Santa Maria|PATI SERRADORA|BOSCAT FUSTA|ROJAS">SERRADORA EL PLA – BOSCAT FUSTA</option>
+            <option value="PATI ALAMÚS|Els Alamús|||">PATI ALAMÚS</option>
+            <option value="PATI NOVALIA|La Pobla de Claramunt|Abocador/Fàbrica|NOVALIA|">PATI NOVALIA</option>
+            <option value="AMISOL|Solsona|SERRADORA|AMISOL|">AMISOL – Solsona</option>
+            <option value="PATI CARDONA|Cardona||BAUTISTA|">PATI CARDONA – BAUTISTA</option>
+            <option value="PORT DEL COMTE|La Coma i la Pedra|PISTES|BAUTISTA|">PORT DEL COMTE – BAUTISTA</option>
+          </optgroup>
         </select>
-        <input type="text" id="f-origen-alt" placeholder="Nom de la pila / origen" style="display:none;margin-top:8px;">
-      </div>
-      <div class="row-2">
-        <div class="field">
-          <label>Municipi origen</label>
-          <select id="f-municipi">
-            <option value="">— Municipi —</option>
-            <option>Abrera</option>
-            <option>Alcover</option>
-            <option>Arbolí</option>
-            <option>Artès</option>
-            <option>Calders</option>
-            <option>Calldetenes</option>
-            <option>Cardona</option>
-            <option>Castellfollit del Boix</option>
-            <option>Corbera de Llobregat</option>
-            <option>El Bruc</option>
-            <option>El Pla de Santa Maria</option>
-            <option>Els Alamús</option>
-            <option>Hostalets de Pierola</option>
-            <option>L'Ametlla del Vallès</option>
-            <option>La Coma i la Pedra</option>
-            <option>La Pobla de Claramunt</option>
-            <option>Llobera</option>
-            <option>Moià</option>
-            <option>Olèrdola</option>
-            <option>Premià de Mar</option>
-            <option>Rajadell</option>
-            <option>Rasos de Peguera</option>
-            <option>Sant Bartomeu del Grau</option>
-            <option>Sant Celoni</option>
-            <option>Sant Joan de l'Erm</option>
-            <option>Sant Pere Sallavinera</option>
-            <option>Santa Maria d'Oló</option>
-            <option>Solsona</option>
-            <option>Subirats</option>
-            <option>Viladecavalls</option>
-            <option value="__altre__">Altre...</option>
-          </select>
-          <input type="text" id="f-municipi-alt" placeholder="Municipi" style="display:none;margin-top:8px;">
-        </div>
-        <div class="field">
-          <label>Finca / Parcel·la</label>
-          <select id="f-finca">
-            <option value="">— Finca —</option>
-            <option>Abocador Can Mata</option>
-            <option>Abocador/Fàbrica</option>
-            <option>ALBET I NOYA</option>
-            <option>AUTOPISTA</option>
-            <option>BOIXADORS</option>
-            <option>CAN CANALS</option>
-            <option>CAN FONTANELLES</option>
-            <option>CAN MARC</option>
-            <option>CAN SOLÀ</option>
-            <option>CASA BELTRANET</option>
-            <option>CASES BLANQUES</option>
-            <option>CASTILLEJOS</option>
-            <option>Carretera</option>
-            <option>CLAPERS</option>
-            <option>Can Rovira</option>
-            <option>Just Serra</option>
-            <option>MAS DE LA FAM</option>
-            <option>PARÈS</option>
-            <option>Pati Presegué</option>
-            <option>Pati germans Cassi</option>
-            <option>PATI SERRADORA</option>
-            <option>Peatge antic AP7</option>
-            <option>PISTES</option>
-            <option>RIVES BLAVES</option>
-            <option>VILAMORÓS</option>
-            <option value="__altre__">Altre...</option>
-          </select>
-          <input type="text" id="f-finca-alt" placeholder="Nom finca" style="display:none;margin-top:8px;">
-        </div>
       </div>
       <div class="field">
         <label>Proveïdor</label>
         <select id="f-proveidor">
           <option value="">— Selecciona —</option>
-          <option>AMISOL</option>
-          <option>BAUTISTA</option>
-          <option>BOIX</option>
+          <option>PRESEGUÉ</option>
           <option>BOSCAT FUSTA</option>
           <option>EXFOCAT</option>
-          <option>FAMADAS/CASSI</option>
+          <option>BAUTISTA</option>
           <option>FAMADAS/LLENÇ</option>
-          <option>FUSTES JANÉ</option>
-          <option>GRIGORE</option>
-          <option>NOVALIA</option>
-          <option>PRESEGUÉ</option>
-          <option>RANUSH</option>
+          <option>FAMADAS/CASSI</option>
           <option>SERFOCAT</option>
+          <option>GRIGORE</option>
+          <option>RANUSH</option>
+          <option>ZARACHO</option>
+          <option>AMISOL</option>
           <option>SOLÀ</option>
-          <option>ALTRES</option>
+          <option>BORNIQUEL</option>
+          <option>JANÉ</option>
+          <option>SERRADORA BOIX</option>
           <option value="__altre__">Altre...</option>
         </select>
         <input type="text" id="f-proveidor-alt" placeholder="Nom del proveïdor" style="display:none;margin-top:8px;">
       </div>
+      <div class="row-2">
+        <div class="field">
+          <label>Municipi origen</label>
+          <input type="text" id="f-origen" placeholder="Ex: Moià">
+        </div>
+        <div class="field">
+          <label>Finca</label>
+          <input type="text" id="f-finca" placeholder="Nom finca">
+        </div>
+      </div>
     </div>
+
+
 
     <div class="form-section">
       <div class="form-section-title">🏭 Destinació</div>
@@ -723,7 +661,7 @@
 <div class="panel" id="panel-exportar">
   <div class="export-section">
     <h3>📊 Exportar a CSV</h3>
-    <p>Descarrega tots els moviments en format CSV. Pots obrir-lo directament a Excel o importar-lo al fitxer Novalia_Maig2026.xlsx.</p>
+    <p>Descarrega tots els moviments en format CSV. Pots obrir-lo directament a Excel o importar-lo al fitxer Novalia_Jun2026.xlsx.</p>
     <button class="btn btn-export" onclick="exportCSV()">
       <span>⬇️</span> Descarregar CSV
     </button>
@@ -771,7 +709,7 @@
 // ============================================================
 // DATA STORE
 // ============================================================
-const STORAGE_KEY = 'novalia_moviments_maig26';
+const STORAGE_KEY = 'novalia_moviments_jun26';
 
 function getMoviments() {
   try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); }
@@ -819,6 +757,29 @@ function formatNum(n, dec = 0) {
 }
 
 // ============================================================
+
+// ============================================================
+// PILA AUTOFILL
+// ============================================================
+function onPilaChange() {
+  const val = document.getElementById('f-pila').value;
+  if (!val) return;
+  // format: "nom|municipi|finca|proveidor|estelladora"
+  const [, municipi, finca, proveidor, estelladora] = val.split('|');
+  if (municipi) document.getElementById('f-origen').value = municipi;
+  if (finca) document.getElementById('f-finca').value = finca;
+  if (proveidor) {
+    const sel = document.getElementById('f-proveidor');
+    const opt = [...sel.options].find(o => o.value === proveidor || o.text === proveidor);
+    if (opt) sel.value = opt.value;
+  }
+  if (estelladora) {
+    const sel = document.getElementById('f-estelladora');
+    const opt = [...sel.options].find(o => o.value === estelladora || o.text === estelladora);
+    if (opt) sel.value = opt.value;
+  }
+}
+
 // "ALTRE" SELECTS
 // ============================================================
 document.querySelectorAll('select').forEach(sel => {
