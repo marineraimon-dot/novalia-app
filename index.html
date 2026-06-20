@@ -826,9 +826,8 @@ function saveMoviment(e) {
     data: document.getElementById('f-data').value,
     tipus: document.getElementById('f-tipus').value,
     proveidor: getSelectValue('f-proveidor'),
-    origen: getSelectValue('f-origen'),
-    municipi: getSelectValue('f-municipi'),
-    finca: getSelectValue('f-finca'),
+    origen: document.getElementById('f-origen').value.trim(),
+    finca: document.getElementById('f-finca').value.trim(),
     destinacio: getSelectValue('f-destinacio'),
     transportista: getSelectValue('f-transportista'),
     brut,
@@ -847,6 +846,8 @@ function saveMoviment(e) {
 
   showToast('✅ Moviment desat correctament!', 'success');
   resetForm();
+
+  // Set default date again
   document.getElementById('f-data').value = new Date().toISOString().split('T')[0];
 }
 
