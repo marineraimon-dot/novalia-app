@@ -3,13 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<!-- PWA -->
-<link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#2e7d32">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="Novalia">
-<link rel="apple-touch-icon" href="icon.svg">
 <title>Novalia — Moviments</title>
 <style>
   :root {
@@ -399,13 +394,23 @@
   .modal p { font-size: 0.9rem; color: var(--text-light); margin-bottom: 20px; }
   .modal-actions { display: flex; gap: 10px; }
   .modal-actions .btn { flex: 1; }
+
+  .info-row {
+    background: var(--green-pale);
+    border-radius: var(--radius-sm);
+    padding: 10px 14px;
+    font-size: 0.82rem;
+    color: var(--green);
+    margin-bottom: 14px;
+    line-height: 1.5;
+  }
 </style>
 </head>
 <body>
 
 <header>
   <div>
-    <div style="display:flex;align-items:center;gap:8px;">
+    <div class="header-logo" style="display:flex;align-items:center;gap:8px;">
       <span style="font-size:1.3rem;">🌲</span>
       <div>
         <h1>NOVALIA FORESTAL</h1>
@@ -452,7 +457,7 @@
       </div>
     </div>
 
-        <div class="form-section">
+    <div class="form-section">
       <div class="form-section-title">🌲 Origen</div>
       <div class="field">
         <label>Pila d'origen <span style="font-weight:400;color:var(--grey-mid);text-transform:none;">(autofill)</span></label>
@@ -531,8 +536,6 @@
       </div>
     </div>
 
-
-
     <div class="form-section">
       <div class="form-section-title">🏭 Destinació</div>
       <div class="field">
@@ -540,16 +543,14 @@
         <select id="f-destinacio" required>
           <option value="">— Selecciona client —</option>
           <option>ROFEICA</option>
-          <option>SPT</option>
+          <option>SPT / SANT PERE DE TORELLÓ</option>
           <option>LIPSA</option>
           <option>CROMOGENIA</option>
           <option>NUFRI</option>
           <option>TSB</option>
           <option>INDULLEIDA</option>
+          <option>ECONIU</option>
           <option>VIELHA</option>
-          <option>PATI ALAMÚS</option>
-          <option>PATI NOVALIA</option>
-          <option>PATI BOSCAT</option>
           <option value="__altre__">Altre...</option>
         </select>
         <input type="text" id="f-destinacio-alt" placeholder="Nom del client" style="display:none;margin-top:8px;">
@@ -561,10 +562,9 @@
           <option>VILAPRAT</option>
           <option>EXLAND</option>
           <option>ROJAS</option>
-          <option>PORQUERES</option>
-          <option>AGROMET</option>
           <option>PUIGGENÉ</option>
-          <option>NUFRI</option>
+          <option>ECONIU</option>
+          <option>PORQUERES</option>
           <option value="__altre__">Altre...</option>
         </select>
         <input type="text" id="f-transportista-alt" placeholder="Nom transportista" style="display:none;margin-top:8px;">
@@ -599,9 +599,7 @@
             <option>NOVALIA</option>
             <option>ROJAS</option>
             <option>AGROMET</option>
-            <option>ZEFFERINO</option>
-            <option>NUFRI</option>
-            <option>ALTRES</option>
+            <option>Externa</option>
           </select>
         </div>
       </div>
@@ -661,7 +659,7 @@
 <div class="panel" id="panel-exportar">
   <div class="export-section">
     <h3>📊 Exportar a CSV</h3>
-    <p>Descarrega tots els moviments en format CSV. Pots obrir-lo directament a Excel o importar-lo al fitxer Novalia_Jun2026.xlsx.</p>
+    <p>Descarrega tots els moviments en format CSV. Pots obrir-lo directament a Excel o importar-lo al fitxer Novalia_Abril2026.xlsx.</p>
     <button class="btn btn-export" onclick="exportCSV()">
       <span>⬇️</span> Descarregar CSV
     </button>
@@ -757,8 +755,6 @@ function formatNum(n, dec = 0) {
 }
 
 // ============================================================
-
-// ============================================================
 // PILA AUTOFILL
 // ============================================================
 function onPilaChange() {
@@ -780,6 +776,7 @@ function onPilaChange() {
   }
 }
 
+// ============================================================
 // "ALTRE" SELECTS
 // ============================================================
 document.querySelectorAll('select').forEach(sel => {
@@ -792,7 +789,7 @@ document.querySelectorAll('select').forEach(sel => {
 
 function getSelectValue(selId) {
   const sel = document.getElementById(selId);
-  if (sel.value === '__altre__') {
+  if (sel.value === '__alte__' || sel.value === '__altre__') {
     const alt = document.getElementById(selId + '-alt');
     return alt ? alt.value.trim() : '';
   }
@@ -883,6 +880,7 @@ function renderLlistat() {
     return;
   }
 
+  // Sort by date descending
   const sorted = [...filtered].sort((a,b) => (b.data||'').localeCompare(a.data||''));
 
   container.innerHTML = sorted.map(m => {
@@ -893,6 +891,7 @@ function renderLlistat() {
     if (m.transportista) pills.push(`<span class="pill blue">${m.transportista}</span>`);
     if (m.humitat) pills.push(`<span class="pill orange">H: ${m.humitat}%</span>`);
     if (m.origen) pills.push(`<span class="pill">${m.origen}</span>`);
+
     const hasCosts = m.costProp || m.costPila;
 
     return `<div class="moviment-card${isServei?' servei':''}">
@@ -900,7 +899,6 @@ function renderLlistat() {
         <div>
           <div class="card-date">${formatDate(m.data)} · ${isServei ? '🔧 Servei' : '🌲 Venda'}</div>
           <div class="card-dest">${m.destinacio || '—'}</div>
-          ${m.origen ? `<div class="card-prov">🪵 ${m.origen}${m.municipi ? ' · ' + m.municipi : ''}</div>` : ''}
           ${m.proveidor ? `<div class="card-prov">📦 ${m.proveidor}${m.finca ? ' · ' + m.finca : ''}</div>` : ''}
         </div>
         <div class="card-pes">
@@ -943,6 +941,7 @@ function renderResum() {
   const totalCostPila = arr.reduce((s, m) => s + (m.costPila || 0), 0);
   const totalCosts = totalCostProp + totalCostPila;
 
+  // Per client
   const perClient = {};
   arr.forEach(m => {
     const k = m.destinacio || 'Sense client';
@@ -951,6 +950,7 @@ function renderResum() {
     perClient[k].tones += (m.pesNet || 0) / 1000;
   });
 
+  // Per transportista
   const perTransp = {};
   arr.forEach(m => {
     if (!m.transportista) return;
@@ -978,6 +978,7 @@ function renderResum() {
         <div class="label">Cost total pila+prop</div>
       </div>
     </div>
+
     <div class="form-section">
       <div class="form-section-title">Per client</div>
       ${Object.entries(perClient).sort((a,b) => b[1].tones - a[1].tones).map(([k, v]) => `
@@ -990,6 +991,7 @@ function renderResum() {
         </div>
       `).join('')}
     </div>
+
     ${Object.keys(perTransp).length ? `
     <div class="form-section">
       <div class="form-section-title">Per transportista</div>
@@ -1007,7 +1009,7 @@ function renderResum() {
 }
 
 // ============================================================
-// DELETE / CLEAR
+// DELETE
 // ============================================================
 let pendingDeleteId = null;
 
@@ -1021,7 +1023,8 @@ function confirmDelete(id) {
 }
 
 function deleteMoviment() {
-  saveMoviments(getMoviments().filter(m => m.id !== pendingDeleteId));
+  const arr = getMoviments().filter(m => m.id !== pendingDeleteId);
+  saveMoviments(arr);
   closeModal();
   renderLlistat();
   showToast('🗑️ Moviment eliminat', 'success');
@@ -1032,20 +1035,41 @@ function closeModal() {
   pendingDeleteId = null;
 }
 
+// ============================================================
+// CLEAR ALL
+// ============================================================
 function confirmClearAll() {
   document.getElementById('modal-title').textContent = '⚠️ Esborrar tot';
   document.getElementById('modal-body').textContent = 'Estàs segur que vols eliminar TOTS els moviments? Aquesta acció no es pot desfer.';
   document.getElementById('modal-confirm-btn').textContent = '⚠️ Esborrar tot';
-  document.getElementById('modal-confirm-btn').onclick = () => { saveMoviments([]); closeModal(); showToast('🗑️ Tot eliminat', 'success'); };
+  document.getElementById('modal-confirm-btn').onclick = clearAll;
   document.getElementById('modal-overlay').classList.add('show');
+}
+
+function clearAll() {
+  saveMoviments([]);
+  closeModal();
+  showToast('🗑️ Tots els moviments eliminats', 'success');
 }
 
 // ============================================================
 // EDIT
 // ============================================================
 function editMoviment(id) {
-  const m = getMoviments().find(x => x.id === id);
+  const arr = getMoviments();
+  const m = arr.find(x => x.id === id);
   if (!m) return;
+
+  const CLIENTS = ['ROFEICA','SPT / SANT PERE DE TORELLÓ','LIPSA','CROMOGENIA','NUFRI','TSB','INDULLEIDA','ECONIU','VIELHA'];
+  const PROVEIDORS = ['PRESEGUÉ','BOSCAT FUSTA','EXFOCAT','BAUTISTA','FAMADAS/LLENÇ','FAMADAS/CASSI','SERFOCAT','GRIGORE','RANUSH','ZARACHO','AMISOL','SOLÀ','BORNIQUEL','JANÉ','SERRADORA BOIX'];
+  const TRANSP = ['VILAPRAT','EXLAND','ROJAS','PUIGGENÉ','ECONIU','PORQUERES'];
+
+  function selOpts(list, val) {
+    let opts = '<option value="">— Selecciona —</option>';
+    list.forEach(o => opts += `<option${o===val?' selected':''}>${o}</option>`);
+    if (val && !list.includes(val)) opts += `<option selected value="${val}">${val}</option>`;
+    return opts;
+  }
 
   document.getElementById('edit-form-container').innerHTML = `
     <div class="field"><label>Data</label><input type="date" id="e-data" value="${m.data||''}"></div>
@@ -1053,10 +1077,9 @@ function editMoviment(id) {
       <option value="venda"${m.tipus==='venda'?' selected':''}>Venda Biomassa</option>
       <option value="servei"${m.tipus==='servei'?' selected':''}>Servei / Boscat</option>
     </select></div>
-    <div class="field"><label>Pila / Origen</label><input type="text" id="e-origen" value="${m.origen||''}"></div>
-    <div class="field"><label>Municipi origen</label><input type="text" id="e-municipi" value="${m.municipi||''}"></div>
-    <div class="field"><label>Finca / Parcel·la</label><input type="text" id="e-finca" value="${m.finca||''}"></div>
     <div class="field"><label>Proveïdor</label><input type="text" id="e-proveidor" value="${m.proveidor||''}"></div>
+    <div class="field"><label>Origen</label><input type="text" id="e-origen" value="${m.origen||''}"></div>
+    <div class="field"><label>Finca</label><input type="text" id="e-finca" value="${m.finca||''}"></div>
     <div class="field"><label>Client (Destinació)</label><input type="text" id="e-destinacio" value="${m.destinacio||''}"></div>
     <div class="field"><label>Transportista</label><input type="text" id="e-transportista" value="${m.transportista||''}"></div>
     <div class="row-3">
@@ -1069,11 +1092,7 @@ function editMoviment(id) {
       <div class="field"><label>Estelladora</label><select id="e-estelladora">
         <option value="">—</option>
         <option${m.estelladora==='NOVALIA'?' selected':''}>NOVALIA</option>
-        <option${m.estelladora==='ROJAS'?' selected':''}>ROJAS</option>
-        <option${m.estelladora==='AGROMET'?' selected':''}>AGROMET</option>
-        <option${m.estelladora==='ZEFFERINO'?' selected':''}>ZEFFERINO</option>
-        <option${m.estelladora==='NUFRI'?' selected':''}>NUFRI</option>
-        <option${m.estelladora==='ALTRES'?' selected':''}>ALTRES</option>
+        <option${m.estelladora==='Externa'?' selected':''}>Externa</option>
       </select></div>
     </div>
     <div class="row-2">
@@ -1092,7 +1111,9 @@ function editMoviment(id) {
 function calcEditNet() {
   const brut = parseFloat(document.getElementById('e-brut').value) || 0;
   const tara = parseFloat(document.getElementById('e-tara').value) || 0;
-  document.getElementById('e-pesnet-display').textContent = brut > 0 ? formatNum(brut - tara) + ' kg' : '—';
+  const net = brut - tara;
+  const el = document.getElementById('e-pesnet-display');
+  el.textContent = brut > 0 ? formatNum(net) + ' kg' : '—';
 }
 
 function saveEdit(id) {
@@ -1105,10 +1126,9 @@ function saveEdit(id) {
     ...arr[idx],
     data: document.getElementById('e-data').value,
     tipus: document.getElementById('e-tipus').value,
-    origen: document.getElementById('e-origen').value.trim(),
-    municipi: document.getElementById('e-municipi').value.trim(),
-    finca: document.getElementById('e-finca').value.trim(),
     proveidor: document.getElementById('e-proveidor').value.trim(),
+    origen: document.getElementById('e-origen').value.trim(),
+    finca: document.getElementById('e-finca').value.trim(),
     destinacio: document.getElementById('e-destinacio').value.trim(),
     transportista: document.getElementById('e-transportista').value.trim(),
     brut, tara, pesNet: brut - tara,
@@ -1129,18 +1149,18 @@ function closeEditModal() {
 }
 
 // ============================================================
-// EXPORT
+// EXPORT CSV
 // ============================================================
 function exportCSV() {
   const arr = getMoviments();
   if (!arr.length) { showToast('⚠️ No hi ha dades per exportar', 'error'); return; }
 
-  const cols = ['Data','Tipus','Pila / Origen','Municipi origen','Finca','Proveïdor','Destinació','Transportista',
+  const cols = ['Data','Tipus','Proveïdor','Origen','Finca','Destinació','Transportista',
     'Brut (kg)','Tara (kg)','Pes Net (kg)','Humitat (%)','Estelladora',
     'Cost Propietari (€)','Cost Pila (€)','Notes'];
 
   const rows = arr.map(m => [
-    m.data, m.tipus, m.origen, m.municipi||'', m.finca, m.proveidor, m.destinacio, m.transportista,
+    m.data, m.tipus, m.proveidor, m.origen, m.finca, m.destinacio, m.transportista,
     m.brut, m.tara, m.pesNet, m.humitat||'', m.estelladora,
     m.costProp, m.costPila, m.notes
   ]);
@@ -1149,11 +1169,12 @@ function exportCSV() {
     r.map(c => `"${String(c||'').replace(/"/g,'""')}"`).join(';')
   ).join('\r\n');
 
+  // BOM for Excel compatibility
   const blob = new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8;' });
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url;
-  a.download = `Novalia_Moviments_Maig2026_${new Date().toISOString().split('T')[0]}.csv`;
+  a.download = `Novalia_Moviments_Jun2026_${new Date().toISOString().split('T')[0]}.csv`;
   document.body.appendChild(a);
   a.click();
   document.body.removeChild(a);
@@ -1161,16 +1182,19 @@ function exportCSV() {
   showToast('⬇️ CSV descarregat!', 'success');
 }
 
+// ============================================================
+// COPY TO CLIPBOARD
+// ============================================================
 function copyToClipboard() {
   const arr = getMoviments();
   if (!arr.length) { showToast('⚠️ No hi ha dades per copiar', 'error'); return; }
 
-  const cols = ['Data','Tipus','Pila / Origen','Municipi origen','Finca','Proveïdor','Destinació','Transportista',
+  const cols = ['Data','Tipus','Proveïdor','Origen','Finca','Destinació','Transportista',
     'Brut (kg)','Tara (kg)','Pes Net (kg)','Humitat (%)','Estelladora',
     'Cost Propietari (€)','Cost Pila (€)','Notes'];
 
   const rows = arr.map(m => [
-    m.data, m.tipus, m.origen||'', m.municipi||'', m.finca||'', m.proveidor||'', m.destinacio||'', m.transportista||'',
+    m.data, m.tipus, m.proveidor||'', m.origen||'', m.finca||'', m.destinacio||'', m.transportista||'',
     m.brut||'', m.tara||'', m.pesNet||'', m.humitat||'', m.estelladora||'',
     m.costProp||'', m.costPila||'', m.notes||''
   ]);
@@ -1180,9 +1204,11 @@ function copyToClipboard() {
   navigator.clipboard.writeText(text).then(() => {
     showToast('📋 Dades copiades!', 'success');
   }).catch(() => {
+    // Fallback
     const ta = document.createElement('textarea');
     ta.value = text;
-    ta.style.cssText = 'position:fixed;opacity:0';
+    ta.style.position = 'fixed';
+    ta.style.opacity = '0';
     document.body.appendChild(ta);
     ta.select();
     document.execCommand('copy');
@@ -1192,18 +1218,16 @@ function copyToClipboard() {
 }
 
 // ============================================================
-// INIT + SERVICE WORKER
+// INIT
 // ============================================================
 document.addEventListener('DOMContentLoaded', () => {
+  // Set today's date
   document.getElementById('f-data').value = new Date().toISOString().split('T')[0];
-  document.getElementById('count-badge').textContent = getMoviments().length;
-});
 
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('./sw.js').catch(() => {});
-  });
-}
+  // Update badge with count
+  const arr = getMoviments();
+  document.getElementById('count-badge').textContent = arr.length;
+});
 </script>
 </body>
 </html>
