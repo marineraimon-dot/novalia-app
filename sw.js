@@ -1,16 +1,11 @@
-﻿const CACHE = 'novalia-v7';
-const ASSETS = [
-  './',
-  './index.html',
-  './simulador.html',
+const CACHE = 'novalia-v8';
+const STATIC = [
   './manifest.json',
   './icon.svg'
 ];
 
 self.addEventListener('install', e => {
-  e.waitUntil(
-    caches.open(CACHE).then(c => c.addAll(ASSETS))
-  );
+  e.waitUntil(caches.open(CACHE).then(c => c.addAll(STATIC)));
   self.skipWaiting();
 });
 
@@ -24,9 +19,16 @@ self.addEventListener('activate', e => {
 });
 
 self.addEventListener('fetch', e => {
+  const url = new URL(e.request.url);
+  // HTML sempre de la xarxa (network-first) -> sempre versio actual
+  if (e.request.destination === 'document' || url.pathname.endsWith('.html') || url.pathname.endsWith('/')) {
+    e.respondWith(
+      fetch(e.request).catch(() => caches.match(e.request))
+    );
+    return;
+  }
+  // Resta: cache first
   e.respondWith(
     caches.match(e.request).then(cached => cached || fetch(e.request))
   );
 });
-
-
