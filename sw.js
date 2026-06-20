@@ -1,4 +1,4 @@
-﻿const CACHE = 'novalia-v6';
+﻿const CACHE = 'novalia-v7';
 const ASSETS = [
   './',
   './index.html',
@@ -28,4 +28,5 @@ self.addEventListener('fetch', e => {
     caches.match(e.request).then(cached => cached || fetch(e.request))
   );
 });
+
 
