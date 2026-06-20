@@ -413,7 +413,7 @@
       </div>
     </div>
   </div>
-  <div class="header-badge" id="header-mes">MAIG 2026</div>
+  <div class="header-badge" id="header-mes">JUNY 2026</div>
 </header>
 
 <div class="tabs">
@@ -726,7 +726,7 @@
 <div class="panel" id="panel-exportar">
   <div class="export-section">
     <h3>📊 Exportar a CSV</h3>
-    <p>Descarrega tots els moviments en format CSV. Pots obrir-lo directament a Excel o importar-lo al fitxer Novalia_Maig2026.xlsx.</p>
+    <p>Descarrega tots els moviments en format CSV. Pots obrir-lo directament a Excel o importar-lo al fitxer Novalia_Juny2026.xlsx.</p>
     <button class="btn btn-export" onclick="exportCSV()">
       <span>⬇️</span> Descarregar CSV
     </button>
@@ -774,7 +774,7 @@
 // ============================================================
 // DATA STORE
 // ============================================================
-const STORAGE_KEY = 'novalia_moviments_maig26';
+const STORAGE_KEY = 'novalia_moviments_juny26';
 
 function getMoviments() {
   try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); }
@@ -1194,7 +1194,7 @@ function exportCSV() {
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url;
-  a.download = `Novalia_Moviments_Maig2026_${new Date().toISOString().split('T')[0]}.csv`;
+  a.download = `Novalia_Moviments_Juny2026_${new Date().toISOString().split('T')[0]}.csv`;
   document.body.appendChild(a);
   a.click();
   document.body.removeChild(a);
@@ -1248,3 +1248,4 @@ if ('serviceWorker' in navigator) {
 </script>
 </body>
 </html>
+
